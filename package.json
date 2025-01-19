@@ -6,6 +6,9 @@
   "scripts": {
     "start": "node app.js"
   },
+  "dependencies": {
+    "node-fetch": "^3.0.0"
+  },
   "author": "teretzdev",
   "license": "ISC"
 }
