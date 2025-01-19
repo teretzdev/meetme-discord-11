@@ -14,12 +14,12 @@ MeetMe-Discord-11 is an event-driven application that integrates existing logic 
    ```
 3. Install the required dependencies:
    ```bash
-   pip install -r requirements.txt
+   npm install
    ```
-4. Configure the MeetMe API client with your credentials in `main.py`. Ensure that all necessary environment variables or configuration files are set up as required by the integrated logic from 'meetme-discord-8'.
+4. Configure the MeetMe API client with your credentials in `main.js`. Ensure that all necessary environment variables or configuration files are set up as required by the integrated logic from 'meetme-discord-8'.
 5. Run the application:
    ```bash
-   python main.py
+   node main.js
    ```
 
 ## Data Schema Overview
