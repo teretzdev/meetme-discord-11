@@ -22,16 +22,28 @@ class AIAgent {
      * @returns {Promise<Object>} The response from the AI service.
      */
     async sendMessage(message) {
-        try {
-            const response = await axios.post(this.apiUrl, {
-                apiKey: this.apiKey,
-                message: message
-            });
-            return response.data;
-        } catch (error) {
-            console.error('Error sending message to AI service:', error);
-            throw error;
+        const maxRetries = 3;
+        let attempt = 0;
+        while (attempt < maxRetries) {
+            try {
+                const response = await axios.post(this.apiUrl, {
+                    apiKey: this.apiKey,
+                    message: message
+                });
+                return response.data;
+            } catch (error) {
+                if (error.response && (error.response.status === 429 || error.response.status >= 500)) {
+                    attempt++;
+                    const delay = Math.pow(2, attempt) * 1000;
+                    console.warn(`Retrying sendMessage due to ${error.response.status} error. Attempt ${attempt} of ${maxRetries}. Waiting ${delay}ms before retry.`);
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                } else {
+                    console.error('Error sending message to AI service:', error);
+                    throw error;
+                }
+            }
         }
+        throw new Error('Failed to send message after multiple attempts.');
     }
 
     /**
@@ -39,17 +51,29 @@ class AIAgent {
      * @returns {Promise<Object>} The responses from the AI service.
      */
     async fetchResponses() {
-        try {
-            const response = await axios.get(this.apiUrl, {
-                headers: {
-                    'Authorization': `Bearer ${this.apiKey}`
+        const maxRetries = 3;
+        let attempt = 0;
+        while (attempt < maxRetries) {
+            try {
+                const response = await axios.get(this.apiUrl, {
+                    headers: {
+                        'Authorization': `Bearer ${this.apiKey}`
+                    }
+                });
+                return response.data;
+            } catch (error) {
+                if (error.response && (error.response.status === 429 || error.response.status >= 500)) {
+                    attempt++;
+                    const delay = Math.pow(2, attempt) * 1000;
+                    console.warn(`Retrying fetchResponses due to ${error.response.status} error. Attempt ${attempt} of ${maxRetries}. Waiting ${delay}ms before retry.`);
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                } else {
+                    console.error('Error fetching responses from AI service:', error);
+                    throw error;
                 }
-            });
-            return response.data;
-        } catch (error) {
-            console.error('Error fetching responses from AI service:', error);
-            throw error;
+            }
         }
+        throw new Error('Failed to fetch responses after multiple attempts.');
     }
 }
 

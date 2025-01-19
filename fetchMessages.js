@@ -13,35 +13,40 @@ const logger = new Logger();
 // Main function to fetch messages
 async function fetchMessages() {
     try {
+        logger.info('Starting the fetchMessages process.');
+
         // Setup environment and connections
+        logger.info('Setting up environment and connections.');
         await setup();
 
-        // Initialize Puppeteer browser
+        logger.info('Initializing Puppeteer browser.');
         const browser = await initializeBrowser();
         const page = await browser.newPage();
 
-        // Login to MeetMe
+        logger.info('Logging into MeetMe.');
         await loginToMeetMe(page);
 
-        // Navigate to chat page
+        logger.info('Navigating to chat page.');
         await navigateToChatPage(page);
 
-        // Handle any pop-ups
+        logger.info('Handling any pop-ups.');
         await handlePopUps(page);
 
-        // Extract chat data
+        logger.info('Extracting chat data.');
         const chatData = await extractChatData(page);
+        logger.info(`Extracted ${chatData.length} chat messages.`);
 
-        // Get existing chat history from Google Sheets
+        logger.info('Fetching existing chat history from Google Sheets.');
         const chatHistory = await getChatHistory();
 
-        // Update chat history with new data
+        logger.info('Updating chat history with new data.');
         await updateChatHistory(chatData, chatHistory);
 
-        // Close the browser
+        logger.info('Closing the browser.');
         await browser.close();
 
         logger.info('Messages fetched and updated successfully.');
+        logger.info('fetchMessages process completed.');
     } catch (error) {
         logger.error('Error fetching messages:', error);
     }

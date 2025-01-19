@@ -30,7 +30,25 @@ MEETME_USERNAME=your_meetme_username
 MEETME_PASSWORD=your_meetme_password
 AI_API_KEY=your_ai_api_key
 AI_API_URL=your_ai_api_url
+PUPPETEER_ARGS=your_puppeteer_args_if_any
+GOOGLE_OAUTH_TOKEN=your_google_oauth_token
 ```
+
+## API Keys and Credentials
+
+### AI Service
+- **AI_API_KEY**: Obtain this key from your AI service provider. It is used to authenticate requests to the AI service.
+- **AI_API_URL**: The endpoint URL for the AI service.
+
+### Google Cloud
+- **GOOGLE_CREDENTIALS_PATH**: Path to your Google OAuth credentials JSON file.
+- **GOOGLE_TOKEN_PATH**: Path to your Google OAuth token JSON file.
+- **GOOGLE_SHEET_ID**: The ID of the Google Sheet you want to access.
+- **GOOGLE_OAUTH_TOKEN**: If using environment variables for tokens, set this to your OAuth token.
+
+### Puppeteer
+- **PUPPETEER_HEADLESS**: Set to `true` to run Puppeteer in headless mode.
+- **PUPPETEER_ARGS**: Additional arguments for Puppeteer, if needed.
 
 ## OAuth Credentials
 1. Go to the Google Cloud Console.
