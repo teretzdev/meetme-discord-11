@@ -6,8 +6,8 @@ from send_responses import ResponseSender
 from schema import Event
 from event_listener import EventListener  # Assuming an event listener module
 
-# Assuming meetme_api_client is an instance of a client that can fetch and send messages
-meetme_api_client = None  # Replace with actual client initialization
+# Initialize the MeetMe API client with the correct credentials and parameters
+meetme_api_client = MeetMeApiClient(api_key="your_api_key", base_url="https://api.meetme.com")
 
 def main():
     # Initialize components
@@ -19,12 +19,12 @@ def main():
     event_listener = EventListener()
 
     # Register event handlers
-    event_listener.register_event("fetch_messages", fetcher.on_fetch_messages_event)
-    event_listener.register_event("messages_fetched", processor.on_messages_fetched_event)
-    event_listener.register_event("messages_processed", sender.on_messages_processed_event)
+    event_listener.register_handler("fetch_messages", fetcher.on_fetch_messages_event)
+    event_listener.register_handler("messages_fetched", processor.on_messages_fetched_event)
+    event_listener.register_handler("messages_processed", sender.on_messages_processed_event)
 
-    # Simulate triggering the fetch messages event
-    event_listener.trigger_event("fetch_messages", {})
+    # Start the event-driven process by triggering the fetch messages event
+    event_listener.emit_event("fetch_messages", {})
 
 if __name__ == "__main__":
     main()

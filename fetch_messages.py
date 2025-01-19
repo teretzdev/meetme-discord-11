@@ -10,7 +10,8 @@ class MessageFetcher:
 
     def on_fetch_messages_event(self, event_data):
         # Fetch messages when an event is triggered
-        raw_messages = self.meetme_api_client.get_messages()
+        # Fetch messages using the actual logic from 'meetme-discord-8-fetch'
+        raw_messages = self.meetme_api_client.fetch_messages()
         
         # Convert raw messages to Message objects
         messages = [

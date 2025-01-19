@@ -19,15 +19,16 @@ class ResponseSender:
             self.send_response(response)
 
     def send_response(self, response):
-        # Placeholder for actual sending logic
-        # In a real application, this would involve making an API call to send the response
-        print(f"Sending response: {response}")
-        # Example: self.meetme_api_client.send_message(response.recipient, response.content)
+        # Actual sending logic from 'meetme-discord-8-send'
+        # This involves making an API call to send the response
+        self.meetme_api_client.send_message(response.recipient, response.content)
+        print(f"Response sent to {response.recipient}: {response.content}")
 
     def emit_event(self, event):
-        # Placeholder for event emission logic
-        # In a real application, this could be a call to an event bus or message queue
-        print(f"Event emitted: {event}")
+        # Actual event emission logic
+        # This should involve sending the event to a message queue or event bus
+        self.meetme_api_client.emit_event(event)
+        print(f"Event emitted: {event.event_type}")
 
 # Example usage
 if __name__ == "__main__":
