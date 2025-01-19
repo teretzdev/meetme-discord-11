@@ -5,6 +5,8 @@ This project is a Node.js application designed for the MeetMe Discord applicatio
 
 ## Prerequisites
 - Node.js and npm should be installed on your system. You can download them from [nodejs.org](https://nodejs.org/).
+- RabbitMQ and MongoDB should be installed and running on your system.
+- Google Cloud account for OAuth credentials setup.
 
 ## Installation
 To install the necessary dependencies, run the following command in the project directory:
@@ -13,17 +15,34 @@ To install the necessary dependencies, run the following command in the project 
 npm install
 ```
 
+## Environment Setup
+Create a `.env` file in the root directory of your project and add the following environment variables:
+
+```
+PUPPETEER_HEADLESS=true
+RABBITMQ_URL=amqp://localhost
+RABBITMQ_QUEUE=your_queue_name
+MONGODB_URI=mongodb://localhost:27017/your_db_name
+GOOGLE_SHEET_ID=your_google_sheet_id
+GOOGLE_CREDENTIALS_PATH=path_to_your_credentials.json
+GOOGLE_TOKEN_PATH=path_to_your_token.json
+MEETME_USERNAME=your_meetme_username
+MEETME_PASSWORD=your_meetme_password
+AI_API_KEY=your_ai_api_key
+AI_API_URL=your_ai_api_url
+```
+
+## OAuth Credentials
+1. Go to the Google Cloud Console.
+2. Create a new project and enable the Google Sheets API.
+3. Create OAuth 2.0 credentials and download the `credentials.json` file.
+4. Place the `credentials.json` file in the root directory of your project.
+
 ## Running the Application
-You can start the application using either of the following commands:
+To start the application, use the following command:
 
 ```bash
 npm start
 ```
 
-or
-
-```bash
-node app.js
-```
-
-These commands will execute the `app.js` file, which logs 'Hello, World!' to the console, verifying that the Node.js environment is set up correctly.
+This command will execute the `fetchMessages.js` file, which integrates with MeetMe, Google Sheets, and an AI service to fetch and update chat messages.
