@@ -7,6 +7,7 @@ const { setup } = require('./src/utils/setup.cjs');
 const { getChatHistory, updateChatHistory } = require('./src/services/sheetService');
 const { initializeBrowser, loginToMeetMe, navigateToChatPage, handlePopUps, extractChatData } = require('./src/services/meetmeService');
 const { sendMessage } = require('./src/services/discordIntegration');
+const { sendMessage } = require('./src/services/discordIntegration');
 
 // Initialize logger
 const logger = new Logger();
@@ -38,6 +39,13 @@ async function fetchMessages() {
 
         // Update chat history with new data
         await updateChatHistory(chatData, chatHistory);
+
+        // Send each new chat message to the specified Discord channel
+        const discordChannelId = process.env.DISCORD_CHANNEL_ID;
+        for (const message of chatData) {
+            const content = `${message.user}: ${message.text} (at ${message.timestamp})`;
+            await sendMessage(discordChannelId, content);
+        }
 
         // Send each new chat message to the specified Discord channel
         const discordChannelId = process.env.DISCORD_CHANNEL_ID;

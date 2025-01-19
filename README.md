@@ -34,7 +34,21 @@ AI_API_URL=your_ai_api_url
 # Discord Bot Setup
 DISCORD_BOT_TOKEN=your_discord_bot_token
 DISCORD_CHANNEL_ID=your_discord_channel_id
+
+# Discord Bot Setup
+DISCORD_BOT_TOKEN=your_discord_bot_token
+DISCORD_CHANNEL_ID=your_discord_channel_id
 ```
+
+## Discord Bot Setup
+To set up the Discord bot, follow these steps:
+
+1. Go to the [Discord Developer Portal](https://discord.com/developers/applications).
+2. Click on "New Application" and give your application a name.
+3. Navigate to the "Bot" tab on the left sidebar and click "Add Bot".
+4. Under the "Token" section, click "Copy" to copy your bot token. Add this token to your `.env` file as `DISCORD_BOT_TOKEN`.
+5. Invite the bot to your server by generating an OAuth2 URL under the "OAuth2" tab. Make sure to select the "bot" scope and assign necessary permissions.
+6. Copy the channel ID where you want the bot to send messages and add it to your `.env` file as `DISCORD_CHANNEL_ID`.
 
 ## Discord Bot Setup
 To set up the Discord bot, follow these steps:
