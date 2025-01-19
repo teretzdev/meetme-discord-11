@@ -2,12 +2,16 @@
   "name": "meetme-discord-11",
   "version": "1.0.0",
   "description": "A Node.js project for the MeetMe Discord application.",
-  "main": "app.js",
+  "type": "module",
+  "main": "fetchMessages.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node fetchMessages.js"
   },
   "dependencies": {
-    "node-fetch": "^3.0.0"
+    "puppeteer": "^19.0.0",
+    "googleapis": "^105.0.0",
+    "dotenv": "^16.0.0",
+    "amqplib": "^0.8.0"
   },
   "author": "teretzdev",
   "license": "ISC"

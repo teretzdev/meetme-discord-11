@@ -13,20 +13,35 @@ To install the necessary dependencies, run the following command in the project 
 npm install
 ```
 
+## Environment Variables
+Create a `.env` file in the project root and add the following environment variables:
+
+```
+USERNAME=your_username
+PASSWORD=your_password
+AMQP_URL=your_amqp_url
+GOOGLE_APPLICATION_CREDENTIALS=path_to_your_google_credentials.json
+MEETME_API_URL=your_meetme_api_url
+MEETME_API_TOKEN=your_meetme_api_token
+AI_API_URL=your_ai_api_url
+AI_API_KEY=your_ai_api_key
+MONGODB_URI=your_mongodb_uri
+```
+
 ## Running the Application
-You can start the application using either of the following commands:
+To start the application, use the following command:
 
 ```bash
 npm start
 ```
 
-or
+This command will execute the `fetchMessages.js` file, which fetches messages from a specified source and sends them to a message queue.
 
-```bash
-node app.js
-```
+## OAuth Credentials and API Keys
+Ensure you have the necessary OAuth credentials and API keys set up. For Google Sheets API, download your credentials JSON file and set the `GOOGLE_APPLICATION_CREDENTIALS` environment variable to its path.
 
-These commands will execute the `app.js` file, which now fetches data from a specified API and logs it to the console, verifying that the Node.js environment is set up correctly.
+## RabbitMQ Setup
+Ensure RabbitMQ is installed and running. Set the `AMQP_URL` environment variable to your RabbitMQ server URL.
 
 ## Data Fetching Functionality
 The application includes a data fetching module located in `fetch/dataFetcher.js`. This module provides a `fetchData` function that can be used to perform HTTP GET requests to fetch data from an API.
