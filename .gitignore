@@ -6,3 +6,6 @@ npm-debug.log*
 
 # Environment variables
 .env
+
+# Credentials
+credentials.json
