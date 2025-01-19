@@ -7,12 +7,12 @@ class ResponseSender:
     def __init__(self, meetme_api_client):
         self.meetme_api_client = meetme_api_client
 
-    def send_responses(self, event):
-        if event.event_type != "messages_processed":
+    def on_messages_processed_event(self, event_data):
+        if event_data.event_type != "messages_processed":
             print("Unsupported event type")
             return
 
-        responses = event.data
+        responses = event_data.data
 
         for response in responses:
             # Simulate sending logic
@@ -44,4 +44,9 @@ if __name__ == "__main__":
     # Assuming meetme_api_client is an instance of a client that can send messages
     meetme_api_client = None  # Replace with actual client initialization
     sender = ResponseSender(meetme_api_client)
-    sender.send_responses(processed_event)
+    # Set up event listener
+    event_listener = EventListener()
+    event_listener.register_event("messages_processed", sender.on_messages_processed_event)
+
+    # Simulate triggering the event
+    event_listener.trigger_event("messages_processed", processed_event)

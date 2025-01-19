@@ -1,7 +1,7 @@
 # schema.py
 
 from datetime import datetime
-from typing import Any
+from typing import Any, List
 
 class Message:
     def __init__(self, message_id: str, content: str, sender: str, timestamp: datetime):
@@ -14,7 +14,7 @@ class Message:
         return f"Message(id={self.message_id}, content={self.content}, sender={self.sender}, timestamp={self.timestamp})"
 
 class Event:
-    def __init__(self, event_type: str, data: Any, timestamp: datetime):
+    def __init__(self, event_type: str, data: List[Message], timestamp: datetime):
         self.event_type = event_type
         self.data = data
         self.timestamp = timestamp
@@ -23,11 +23,11 @@ class Event:
         return f"Event(type={self.event_type}, data={self.data}, timestamp={self.timestamp})"
 
 class Response:
-    def __init__(self, response_id: str, content: str, recipient: str, timestamp: datetime):
+    def __init__(self, response_id: str, content: str, recipient: str, timestamp: datetime, status: str = "pending"):
         self.response_id = response_id
         self.content = content
         self.recipient = recipient
         self.timestamp = timestamp
 
     def __repr__(self):
-        return f"Response(id={self.response_id}, content={self.content}, recipient={self.recipient}, timestamp={self.timestamp})"
+        return f"Response(id={self.response_id}, content={self.content}, recipient={self.recipient}, timestamp={self.timestamp}, status={self.status})"

@@ -4,6 +4,7 @@ from fetch_messages import MessageFetcher
 from process_messages import MessageProcessor
 from send_responses import ResponseSender
 from schema import Event
+from event_listener import EventListener  # Assuming an event listener module
 
 # Assuming meetme_api_client is an instance of a client that can fetch and send messages
 meetme_api_client = None  # Replace with actual client initialization
@@ -14,16 +15,16 @@ def main():
     processor = MessageProcessor()
     sender = ResponseSender(meetme_api_client)
 
-    # Fetch messages
-    fetched_event = fetcher.fetch_messages()
+    # Set up event listener
+    event_listener = EventListener()
 
-    # Process messages
-    if fetched_event and fetched_event.event_type == "messages_fetched":
-        processed_event = processor.process_messages(fetched_event)
+    # Register event handlers
+    event_listener.register_event("fetch_messages", fetcher.on_fetch_messages_event)
+    event_listener.register_event("messages_fetched", processor.on_messages_fetched_event)
+    event_listener.register_event("messages_processed", sender.on_messages_processed_event)
 
-        # Send responses
-        if processed_event and processed_event.event_type == "messages_processed":
-            sender.send_responses(processed_event)
+    # Simulate triggering the fetch messages event
+    event_listener.trigger_event("fetch_messages", {})
 
 if __name__ == "__main__":
     main()

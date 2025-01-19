@@ -7,12 +7,12 @@ class MessageProcessor:
     def __init__(self):
         pass
 
-    def process_messages(self, event):
-        if event.event_type != "messages_fetched":
+    def on_messages_fetched_event(self, event_data):
+        if event_data.event_type != "messages_fetched":
             print("Unsupported event type")
             return
 
-        messages = event.data
+        messages = event_data.data
         responses = []
 
         for message in messages:
@@ -33,7 +33,7 @@ class MessageProcessor:
             timestamp=datetime.now()
         )
 
-        # Emit the event (in a real application, this might be a call to an event bus or similar)
+        # Emit the event
         self.emit_event(response_event)
 
     def generate_response(self, message_content):
@@ -58,4 +58,9 @@ if __name__ == "__main__":
     )
 
     processor = MessageProcessor()
-    processor.process_messages(fetched_event)
+    # Set up event listener
+    event_listener = EventListener()
+    event_listener.register_event("messages_fetched", processor.on_messages_fetched_event)
+
+    # Simulate triggering the event
+    event_listener.trigger_event("messages_fetched", fetched_event)
