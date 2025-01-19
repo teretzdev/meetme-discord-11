@@ -28,6 +28,15 @@ AI_API_KEY=your_ai_api_key
 MONGODB_URI=your_mongodb_uri
 ```
 
+## OAuth Credentials and API Keys
+Ensure you have the necessary OAuth credentials and API keys set up. For Google Sheets API, download your credentials JSON file and set the `GOOGLE_APPLICATION_CREDENTIALS` environment variable to its path.
+
+## RabbitMQ Setup
+Ensure RabbitMQ is installed and running. Set the `AMQP_URL` environment variable to your RabbitMQ server URL.
+
+## MongoDB Setup
+Ensure MongoDB is installed and running. Set the `MONGODB_URI` environment variable to your MongoDB server URI.
+
 ## Running the Application
 To start the application, use the following command:
 
@@ -36,12 +45,6 @@ npm start
 ```
 
 This command will execute the `fetchMessages.js` file, which fetches messages from a specified source and sends them to a message queue.
-
-## OAuth Credentials and API Keys
-Ensure you have the necessary OAuth credentials and API keys set up. For Google Sheets API, download your credentials JSON file and set the `GOOGLE_APPLICATION_CREDENTIALS` environment variable to its path.
-
-## RabbitMQ Setup
-Ensure RabbitMQ is installed and running. Set the `AMQP_URL` environment variable to your RabbitMQ server URL.
 
 ## Data Fetching Functionality
 The application includes a data fetching module located in `fetch/dataFetcher.js`. This module provides a `fetchData` function that can be used to perform HTTP GET requests to fetch data from an API.

@@ -11,7 +11,9 @@
     "puppeteer": "^19.0.0",
     "googleapis": "^105.0.0",
     "dotenv": "^16.0.0",
-    "amqplib": "^0.8.0"
+    "amqplib": "^0.8.0",
+    "mongoose": "^7.0.0",
+    "axios": "^1.0.0"
   },
   "author": "teretzdev",
   "license": "ISC"

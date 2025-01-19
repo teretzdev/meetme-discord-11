@@ -1,3 +1,4 @@
+```javascript
 // src/utils/setup.cjs
 
 // Import necessary modules
@@ -52,3 +53,4 @@ async function setup() {
 setup();
 
 module.exports = setup;
+```

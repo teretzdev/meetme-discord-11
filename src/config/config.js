@@ -8,14 +8,14 @@ dotenv.config();
 // Configuration object to hold environment variables and settings
 const config = {
   puppeteer: {
-    username: process.env.USERNAME,
-    password: process.env.PASSWORD,
+    username: process.env.PUPPETEER_USERNAME,
+    password: process.env.PUPPETEER_PASSWORD,
   },
   rabbitmq: {
     url: process.env.AMQP_URL,
   },
   google: {
-    applicationCredentials: process.env.GOOGLE_APPLICATION_CREDENTIALS,
+    credentialsPath: process.env.GOOGLE_APPLICATION_CREDENTIALS,
   },
   meetme: {
     apiUrl: process.env.MEETME_API_URL,
