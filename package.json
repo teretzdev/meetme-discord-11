@@ -1,0 +1,11 @@
+{
+  "name": "meetme-discord-11",
+  "version": "1.0.0",
+  "description": "A Node.js project for the MeetMe Discord application.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "teretzdev",
+  "license": "ISC"
+}
