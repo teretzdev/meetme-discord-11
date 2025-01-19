@@ -23,11 +23,19 @@ class AIAgent {
      */
     async sendMessage(message) {
         try {
-            const response = await axios.post(this.apiUrl, {
+            const openai = require('openai');
+            const configuration = new openai.Configuration({
                 apiKey: this.apiKey,
-                message: message
             });
-            return response.data;
+            const openaiClient = new openai.OpenAIApi(configuration);
+
+            const response = await openaiClient.createCompletion({
+                model: "text-davinci-003",
+                prompt: message,
+                max_tokens: 150,
+            });
+
+            return response.data.choices[0].text.trim();
         } catch (error) {
             console.error('Error sending message to AI service:', error);
             throw error;
@@ -40,12 +48,10 @@ class AIAgent {
      */
     async fetchResponses() {
         try {
-            const response = await axios.get(this.apiUrl, {
-                headers: {
-                    'Authorization': `Bearer ${this.apiKey}`
-                }
-            });
-            return response.data;
+            // Assuming fetchResponses is meant to retrieve some form of stored responses or logs
+            // This might not be directly applicable with OpenAI, so adjust as needed
+            console.warn('fetchResponses method is not implemented for OpenAI API.');
+            return [];
         } catch (error) {
             console.error('Error fetching responses from AI service:', error);
             throw error;

@@ -11,6 +11,10 @@ const mongoose = require('mongoose');
  * @returns {Promise<amqplib.Connection>} The RabbitMQ connection.
  */
 async function setupRabbitMQ() {
+    if (!process.env.RABBITMQ_URL) {
+        console.log('RabbitMQ URL not set. Skipping RabbitMQ setup.');
+        return null;
+    }
     try {
         const connection = await amqplib.connect(process.env.RABBITMQ_URL);
         console.log('Connected to RabbitMQ');
@@ -26,6 +30,10 @@ async function setupRabbitMQ() {
  * @returns {Promise<void>}
  */
 async function setupDatabase() {
+    if (!process.env.MONGODB_URI) {
+        console.log('MongoDB URI not set. Skipping MongoDB setup.');
+        return;
+    }
     try {
         await mongoose.connect(process.env.MONGODB_URI, {
             useNewUrlParser: true,
@@ -44,9 +52,13 @@ async function setupDatabase() {
  */
 async function setup() {
     try {
-        await setupRabbitMQ();
-        await setupDatabase();
-        console.log('Environment setup complete');
+        const rabbitMQConnection = await setupRabbitMQ();
+        const mongoDBConnection = await setupDatabase();
+        if (rabbitMQConnection || mongoDBConnection) {
+            console.log('Environment setup complete');
+        } else {
+            console.log('No connections were made. Check your environment configuration.');
+        }
     } catch (error) {
         console.error('Environment setup failed:', error);
         throw error;

@@ -6,6 +6,7 @@ This project is a Node.js application designed for the MeetMe Discord applicatio
 ## Prerequisites
 - Node.js and npm should be installed on your system. You can download them from [nodejs.org](https://nodejs.org/).
 - RabbitMQ and MongoDB should be installed and running on your system.
+- An OpenAI account to obtain the API key for AI service integration.
 - Google Cloud account for OAuth credentials setup.
 
 ## Installation
@@ -28,8 +29,7 @@ GOOGLE_CREDENTIALS_PATH=path_to_your_credentials.json
 GOOGLE_TOKEN_PATH=path_to_your_token.json
 MEETME_USERNAME=your_meetme_username
 MEETME_PASSWORD=your_meetme_password
-AI_API_KEY=your_ai_api_key
-AI_API_URL=your_ai_api_url
+OPENAI_API_KEY=your_openai_api_key
 ```
 
 ## OAuth Credentials
@@ -37,6 +37,13 @@ AI_API_URL=your_ai_api_url
 2. Create a new project and enable the Google Sheets API.
 3. Create OAuth 2.0 credentials and download the `credentials.json` file.
 4. Place the `credentials.json` file in the root directory of your project.
+
+## Obtaining API Keys
+
+### OpenAI API Key
+1. Sign up for an account at [OpenAI](https://openai.com/).
+2. Navigate to the API section and generate a new API key.
+3. Add the API key to your `.env` file as `OPENAI_API_KEY`.
 
 ## Running the Application
 To start the application, use the following command:

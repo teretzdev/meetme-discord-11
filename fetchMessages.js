@@ -6,6 +6,7 @@ const { Logger } = require('./src/utils/logger');
 const { setup } = require('./src/utils/setup.cjs');
 const { getChatHistory, updateChatHistory } = require('./src/services/sheetService');
 const { initializeBrowser, loginToMeetMe, navigateToChatPage, handlePopUps, extractChatData } = require('./src/services/meetmeService');
+const AIAgent = require('./src/agents/aiAgent');
 
 // Initialize logger
 const logger = new Logger();
@@ -37,6 +38,21 @@ async function fetchMessages() {
 
         // Update chat history with new data
         await updateChatHistory(chatData, chatHistory);
+
+        // Initialize AI Agent
+        const aiAgent = new AIAgent();
+
+        // Process each message and generate AI responses
+        for (const message of chatData) {
+            try {
+                const aiResponse = await aiAgent.sendMessage(message.text);
+                // Send AI response back to MeetMe user
+                await page.type('.message-input', aiResponse);
+                await page.click('.send-button');
+            } catch (error) {
+                logger.error('Error processing message with AI:', error);
+            }
+        }
 
         // Close the browser
         await browser.close();

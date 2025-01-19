@@ -21,11 +21,21 @@ async function loginToMeetMe(page) {
     await page.goto(loginUrl, { waitUntil: 'networkidle2' });
 
     // Replace with actual selectors and credentials
-    await page.type('#username', process.env.MEETME_USERNAME);
-    await page.type('#password', process.env.MEETME_PASSWORD);
-    await page.click('#loginButton');
+    try {
+        await page.type('#username', process.env.MEETME_USERNAME);
+        await page.type('#password', process.env.MEETME_PASSWORD);
+        await page.click('#loginButton');
 
-    await page.waitForNavigation({ waitUntil: 'networkidle2' });
+        // Wait for navigation or captcha
+        await Promise.race([
+            page.waitForNavigation({ waitUntil: 'networkidle2' }),
+            page.waitForSelector('.captcha', { timeout: 5000 })
+        ]);
+    } catch (error) {
+        console.error('Login failed:', error);
+        // Retry logic or handle captcha
+        // Implement retry or captcha handling here
+    }
 }
 
 /**
@@ -58,14 +68,22 @@ async function handlePopUps(page) {
  */
 async function extractChatData(page) {
     // Replace with actual logic to extract chat data
+    await page.waitForSelector('.chat-message', { timeout: 10000 }); // Wait for messages to load
+
     const chatData = await page.evaluate(() => {
         const messages = [];
         document.querySelectorAll('.chat-message').forEach(msg => {
-            messages.push({
-                user: msg.querySelector('.user-name').innerText,
-                text: msg.querySelector('.message-text').innerText,
-                timestamp: msg.querySelector('.timestamp').innerText,
-            });
+            const userElement = msg.querySelector('.user-name');
+            const textElement = msg.querySelector('.message-text');
+            const timestampElement = msg.querySelector('.timestamp');
+
+            if (userElement && textElement && timestampElement) {
+                messages.push({
+                    user: userElement.innerText,
+                    text: textElement.innerText,
+                    timestamp: timestampElement.innerText,
+                });
+            }
         });
         return messages;
     });
