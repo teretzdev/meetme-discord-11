@@ -8,6 +8,7 @@ This project is a Node.js application designed for the MeetMe Discord applicatio
 - RabbitMQ and MongoDB should be installed and running on your system.
 - Ensure you have access to an AI service for message processing.
 - Google Cloud account for OAuth credentials setup.
+- Discord account and a Discord bot for integration.
 
 ## Installation
 To install the necessary dependencies, run the following command in the project directory:
@@ -59,6 +60,12 @@ To integrate the AI service for processing messages, ensure you have the followi
 1. An account with the AI service provider.
 2. Your API key and endpoint URL, which should be added to the `.env` file as `AI_API_KEY` and `AI_API_URL`.
 
+## Features
+- **MeetMe Chat Data Extraction**: Extracts chat data from MeetMe.
+- **Google Sheets Integration**: Updates chat history in Google Sheets.
+- **AI Message Processing**: Processes messages using an AI service.
+- **Discord Message Sending**: Sends processed messages to a Discord channel.
+
 ## Running the Application
 To start the application, use the following command:
 
@@ -66,4 +73,4 @@ To start the application, use the following command:
 npm start
 ```
 
-This command will execute the `fetchMessages.js` file, which integrates with MeetMe, Google Sheets, and an AI service to fetch and update chat messages.
+This command will execute the `fetchMessages.js` file, which integrates with MeetMe, Google Sheets, Discord, and an AI service to fetch and update chat messages.
