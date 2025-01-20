@@ -43,10 +43,13 @@ async function fetchMessages() {
         // Send each new chat message to the specified Discord channel
         const discordChannelId = process.env.DISCORD_CHANNEL_ID;
         for (const message of chatData) {
-            const aiResponse = await aiAgent.sendMessage(message.text);
-            const content = `${message.user}: ${aiResponse.processedText} (at ${message.timestamp})`;
-            await sendMessage(discordChannelId, content);
-        }
+            try {
+                const processedMessage = await processMessage(message);
+                const content = `${processedMessage.user}: ${processedMessage.text} (at ${processedMessage.timestamp})`;
+                await sendMessage(discordChannelId, content);
+            } catch (error) {
+                logger.error('Error processing message:', error);
+            }
         }
 
         // Close the browser
@@ -56,6 +59,21 @@ async function fetchMessages() {
     } catch (error) {
         logger.error('Error fetching messages:', error);
     }
+}
+
+/**
+ * Processes an individual message.
+ * @param {Object} message - The message object to process.
+ * @returns {Promise<Object>} The processed message object.
+ */
+async function processMessage(message) {
+    // Example processing logic: append AI response to the message text
+    const aiResponse = await aiAgent.sendMessage(message.text);
+    return {
+        user: message.user,
+        text: aiResponse.processedText,
+        timestamp: message.timestamp
+    };
 }
 
 // Execute the fetchMessages function
