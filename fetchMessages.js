@@ -40,14 +40,23 @@ async function fetchMessages() {
         // Update chat history with new data
         await updateChatHistory(chatData, chatHistory);
 
-        // Send each new chat message to the specified Discord channel
-        const discordChannelId = process.env.DISCORD_CHANNEL_ID;
+        // Process each new chat message
         for (const message of chatData) {
+            // Get AI-generated response
             const aiResponse = await aiAgent.sendMessage(message.text);
-            const content = `${message.user}: ${aiResponse.processedText} (at ${message.timestamp})`;
+            
+            // Send AI response back to MeetMe user
+            await page.type('.chat-input', aiResponse);
+            await page.click('.send-button');
+
+            // Send AI response to the specified Discord channel
+            const discordChannelId = process.env.DISCORD_CHANNEL_ID;
+            const content = `${message.user}: ${aiResponse} (at ${message.timestamp})`;
             await sendMessage(discordChannelId, content);
         }
-        }
+
+        // Close the browser
+        await browser.close();
 
         // Close the browser
         await browser.close();

@@ -20,12 +20,33 @@ async function loginToMeetMe(page) {
     const loginUrl = 'https://www.meetme.com/login';
     await page.goto(loginUrl, { waitUntil: 'networkidle2' });
 
-    // Replace with actual selectors and credentials
-    await page.type('#username', process.env.MEETME_USERNAME);
-    await page.type('#password', process.env.MEETME_PASSWORD);
-    await page.click('#loginButton');
+    // Updated selectors and added retry logic
+    const maxRetries = 3;
+    let attempt = 0;
+    let loggedIn = false;
 
-    await page.waitForNavigation({ waitUntil: 'networkidle2' });
+    while (attempt < maxRetries && !loggedIn) {
+        try {
+            await page.type('input[name="username"]', process.env.MEETME_USERNAME);
+            await page.type('input[name="password"]', process.env.MEETME_PASSWORD);
+            await page.click('button[type="submit"]');
+
+            await page.waitForNavigation({ waitUntil: 'networkidle2' });
+
+            // Check for captcha or login error
+            if (await page.$('.captcha') || await page.$('.login-error')) {
+                throw new Error('Captcha or login error encountered');
+            }
+
+            loggedIn = true;
+        } catch (error) {
+            console.error(`Login attempt ${attempt + 1} failed:`, error);
+            attempt++;
+            if (attempt >= maxRetries) {
+                throw new Error('Max login attempts reached');
+            }
+        }
+    }
 }
 
 /**
@@ -57,15 +78,19 @@ async function handlePopUps(page) {
  * @returns {Promise<Array>} The extracted chat data.
  */
 async function extractChatData(page) {
-    // Replace with actual logic to extract chat data
+    // Updated logic to extract chat data with error handling
     const chatData = await page.evaluate(() => {
         const messages = [];
-        document.querySelectorAll('.chat-message').forEach(msg => {
-            messages.push({
-                user: msg.querySelector('.user-name').innerText,
-                text: msg.querySelector('.message-text').innerText,
-                timestamp: msg.querySelector('.timestamp').innerText,
-            });
+        document.querySelectorAll('.message-container').forEach(msg => {
+            try {
+                messages.push({
+                    user: msg.querySelector('.username').innerText,
+                    text: msg.querySelector('.text-content').innerText,
+                    timestamp: msg.querySelector('.time-stamp').innerText,
+                });
+            } catch (error) {
+                console.error('Error extracting message:', error);
+            }
         });
         return messages;
     });

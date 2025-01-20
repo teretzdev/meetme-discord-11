@@ -43,13 +43,30 @@ async function setupDatabase() {
  * @returns {Promise<void>}
  */
 async function setup() {
+    let rabbitMQConnected = false;
+    let mongoDBConnected = false;
+
     try {
         await setupRabbitMQ();
-        await setupDatabase();
-        console.log('Environment setup complete');
+        rabbitMQConnected = true;
+        console.log('RabbitMQ setup complete');
     } catch (error) {
-        console.error('Environment setup failed:', error);
-        throw error;
+        console.error('RabbitMQ setup failed:', error);
+    }
+
+    try {
+        await setupDatabase();
+        mongoDBConnected = true;
+        console.log('MongoDB setup complete');
+    } catch (error) {
+        console.error('MongoDB setup failed:', error);
+    }
+
+    if (rabbitMQConnected || mongoDBConnected) {
+        console.log('Environment setup complete with available services');
+    } else {
+        console.error('Environment setup failed: No services available');
+        throw new Error('No services available');
     }
 }
 

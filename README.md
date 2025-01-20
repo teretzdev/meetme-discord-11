@@ -30,7 +30,7 @@ GOOGLE_TOKEN_PATH=path_to_your_token.json
 MEETME_USERNAME=your_meetme_username
 MEETME_PASSWORD=your_meetme_password
 AI_API_KEY=your_ai_api_key # API key for the AI service
-AI_API_URL=your_ai_api_url # URL for the AI service endpoint
+# Removed AI_API_URL as it's not needed anymore
 
 # Discord Bot Setup
 DISCORD_BOT_TOKEN=your_discord_bot_token
@@ -47,17 +47,21 @@ To set up the Discord bot, follow these steps:
 5. Invite the bot to your server by generating an OAuth2 URL under the "OAuth2" tab. Make sure to select the "bot" scope and assign necessary permissions.
 6. Copy the channel ID where you want the bot to send messages and add it to your `.env` file as `DISCORD_CHANNEL_ID`.
 
-## OAuth Credentials
-1. Go to the Google Cloud Console.
+## OAuth Credentials Setup
+To set up OAuth credentials for Google Sheets API:
+
+1. Go to the [Google Cloud Console](https://console.cloud.google.com/).
 2. Create a new project and enable the Google Sheets API.
-3. Create OAuth 2.0 credentials and download the `credentials.json` file.
-4. Place the `credentials.json` file in the root directory of your project.
+3. Navigate to "Credentials" and click "Create credentials" to generate OAuth 2.0 credentials.
+4. Download the `credentials.json` file and place it in the root directory of your project.
+5. Set the path to this file in your `.env` file as `GOOGLE_CREDENTIALS_PATH`.
 
 ## AI Service Setup
-To integrate the AI service for processing messages, ensure you have the following:
+To integrate the AI service for processing messages:
 
-1. An account with the AI service provider.
-2. Your API key and endpoint URL, which should be added to the `.env` file as `AI_API_KEY` and `AI_API_URL`.
+1. Sign up for an account with the AI service provider.
+2. Obtain your API key from the provider's dashboard.
+3. Add the API key to your `.env` file as `AI_API_KEY`.
 
 ## Running the Application
 To start the application, use the following command:

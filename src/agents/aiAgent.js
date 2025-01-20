@@ -1,48 +1,13 @@
-// src/agents/aiAgent.js
-
-require('dotenv').config();
-const axios = require('axios');
-
-/**
- * AIAgent class to interact with an AI service.
- */
-class AIAgent {
-    constructor() {
-        this.apiKey = process.env.AI_API_KEY;
-        this.apiUrl = process.env.AI_API_URL;
-        
-        if (!this.apiKey || !this.apiUrl) {
-            throw new Error('AI API configuration is missing. Please check your environment variables.');
-        }
-    }
-
-    /**
-     * Sends a message to the AI service.
-     * @param {string} message - The message to send.
-     * @returns {Promise<Object>} The response from the AI service.
-     */
-    async sendMessage(message) {
-        try {
-            const response = await axios.post(this.apiUrl, {
-                apiKey: this.apiKey,
-                message: message
-            });
-            return response.data;
-        } catch (error) {
-            console.error('Error sending message to AI service:', error);
-            throw error;
-        }
-    }
-
     /**
      * Fetches responses from the AI service.
+     * @param {string} endpoint - The API endpoint to fetch responses from.
      * @returns {Promise<Object>} The responses from the AI service.
      */
-    async fetchResponses() {
+    async fetchResponses(endpoint) {
         try {
-            const response = await axios.get(this.apiUrl, {
+            const response = await axios.get(endpoint, {
                 headers: {
-                    'Authorization': `Bearer ${this.apiKey}`
+                    'Authorization': `Bearer ${process.env.AI_API_KEY}`
                 }
             });
             return response.data;
@@ -51,6 +16,3 @@ class AIAgent {
             throw error;
         }
     }
-}
-
-module.exports = AIAgent;
