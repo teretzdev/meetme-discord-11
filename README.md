@@ -30,6 +30,7 @@ GOOGLE_TOKEN_PATH=path_to_your_token.json
 MEETME_USERNAME=your_meetme_username
 MEETME_PASSWORD=your_meetme_password
 AI_API_KEY=your_ai_api_key # API key for the AI service
+AI_API_URL=your_ai_api_url # URL for the AI service endpoint
 
 # Discord Bot Setup
 DISCORD_BOT_TOKEN=your_discord_bot_token
@@ -54,6 +55,7 @@ To set up OAuth credentials for Google Sheets API:
 3. Navigate to "Credentials" and click "Create credentials" to generate OAuth 2.0 credentials.
 4. Download the `credentials.json` file and place it in the root directory of your project.
 5. Set the path to this file in your `.env` file as `GOOGLE_CREDENTIALS_PATH`.
+6. Set the path to the token file in your `.env` file as `GOOGLE_TOKEN_PATH`.
 
 ## AI Service Setup
 To integrate the AI service for processing messages:
@@ -61,6 +63,7 @@ To integrate the AI service for processing messages:
 1. Sign up for an account with the AI service provider.
 2. Obtain your API key from the provider's dashboard.
 3. Add the API key to your `.env` file as `AI_API_KEY`.
+4. Add the AI service endpoint URL to your `.env` file as `AI_API_URL`.
 
 ## Running the Application
 To start the application, use the following command:
