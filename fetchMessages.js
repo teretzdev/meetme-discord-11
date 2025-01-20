@@ -7,12 +7,7 @@ const { setup } = require('./src/utils/setup.cjs');
 const { getChatHistory, updateChatHistory } = require('./src/services/sheetService');
 const { initializeBrowser, loginToMeetMe, navigateToChatPage, handlePopUps, extractChatData } = require('./src/services/meetmeService');
 const { sendMessage } = require('./src/services/discordIntegration');
-const AIAgent = require('./src/agents/aiAgent');
-
-// Initialize logger
 const logger = new Logger();
-
-const aiAgent = new AIAgent();
 
 async function fetchMessages() {
     try {
@@ -44,11 +39,10 @@ async function fetchMessages() {
         const discordChannelId = process.env.DISCORD_CHANNEL_ID;
         for (const message of chatData) {
             try {
-                const processedMessage = await processMessage(message);
-                const content = `${processedMessage.user}: ${processedMessage.text} (at ${processedMessage.timestamp})`;
+                const content = `${message.user}: ${message.text} (at ${message.timestamp})`;
                 await sendMessage(discordChannelId, content);
             } catch (error) {
-                logger.error('Error processing message:', error);
+                logger.error('Error sending message:', error);
             }
         }
 
@@ -61,20 +55,6 @@ async function fetchMessages() {
     }
 }
 
-/**
- * Processes an individual message.
- * @param {Object} message - The message object to process.
- * @returns {Promise<Object>} The processed message object.
- */
-async function processMessage(message) {
-    // Example processing logic: append AI response to the message text
-    const aiResponse = await aiAgent.sendMessage(message.text);
-    return {
-        user: message.user,
-        text: aiResponse.processedText,
-        timestamp: message.timestamp
-    };
-}
 
 // Execute the fetchMessages function
 fetchMessages();

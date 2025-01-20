@@ -21,10 +21,6 @@ const config = {
     meetme: {
         username: process.env.MEETME_USERNAME,
         password: process.env.MEETME_PASSWORD
-    },
-    ai: {
-        apiKey: process.env.AI_API_KEY,
-        apiUrl: process.env.AI_API_URL
     }
 };
 
