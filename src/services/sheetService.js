@@ -1,5 +1,4 @@
-// src/services/sheetService.js
-
+```javascript
 const { google } = require('googleapis');
 const fs = require('fs');
 const path = require('path');
@@ -35,10 +34,10 @@ async function authorize() {
 
 /**
  * Retrieves chat history from the Google Sheet.
- * @param {OAuth2Client} auth - The authenticated Google OAuth2 client.
  * @returns {Promise<Array>} The chat history data.
  */
-async function getChatHistory(auth) {
+async function getChatHistory() {
+    const auth = await authorize();
     const sheets = google.sheets({ version: 'v4', auth });
     const spreadsheetId = process.env.GOOGLE_SHEET_ID;
     const range = 'ChatHistory!A1:E'; // Adjust the range as needed
@@ -58,11 +57,11 @@ async function getChatHistory(auth) {
 
 /**
  * Updates chat history in the Google Sheet.
- * @param {OAuth2Client} auth - The authenticated Google OAuth2 client.
  * @param {Array} chatData - The new chat data to append.
  * @returns {Promise<void>}
  */
-async function updateChatHistory(auth, chatData) {
+async function updateChatHistory(chatData) {
+    const auth = await authorize();
     const sheets = google.sheets({ version: 'v4', auth });
     const spreadsheetId = process.env.GOOGLE_SHEET_ID;
     const range = 'ChatHistory!A1:E'; // Adjust the range as needed
@@ -88,3 +87,33 @@ module.exports = {
     getChatHistory,
     updateChatHistory,
 };
+
+/**
+ * Clears chat history in the Google Sheet.
+ * @returns {Promise<void>}
+ */
+async function clearChatHistory() {
+    const auth = await authorize();
+    const sheets = google.sheets({ version: 'v4', auth });
+    const spreadsheetId = process.env.GOOGLE_SHEET_ID;
+    const range = 'ChatHistory!A1:E'; // Adjust the range as needed
+
+    try {
+        await sheets.spreadsheets.values.clear({
+            spreadsheetId,
+            range,
+        });
+        console.log('Chat history cleared successfully.');
+    } catch (error) {
+        console.error('Error clearing chat history:', error.message);
+        throw error;
+    }
+}
+
+module.exports = {
+    authorize,
+    getChatHistory,
+    updateChatHistory,
+    clearChatHistory,
+};
+```

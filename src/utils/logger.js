@@ -7,9 +7,21 @@ class Logger {
     /**
      * Logs a debug message.
      * @param {string} message - The message to log.
+     * @param {Error} [error] - Optional error object for detailed logging.
+     */
+    debug(message, error = null) {
+        console.debug(`DEBUG [${new Date().toISOString()}] [${new Date().toISOString()}]: ${message}`);
+        if (error) {
+            console.error(`ERROR DETAILS: ${error.stack || error.message}`);
+        }
+    }
+
+    /**
+     * Logs a debug message.
+     * @param {string} message - The message to log.
      */
     debug(message) {
-        console.debug(`DEBUG [${new Date().toISOString()}]: ${message}`);
+        console.debug(`DEBUG [${new Date().toISOString()}] [${new Date().toISOString()}]: ${message}`);
     }
 
     /**
