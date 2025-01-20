@@ -14,9 +14,12 @@ async function setupRabbitMQ() {
     try {
         const connection = await amqplib.connect(process.env.RABBITMQ_URL);
         console.log('Connected to RabbitMQ');
-        return connection;
+        const channel = await connection.createChannel();
+        await channel.assertQueue(process.env.RABBITMQ_QUEUE, { durable: true });
+        console.log(`RabbitMQ channel and queue '${process.env.RABBITMQ_QUEUE}' set up successfully.`);
+        return { connection, channel };
     } catch (error) {
-        console.error('Failed to connect to RabbitMQ:', error);
+        console.error('Failed to set up RabbitMQ:', error);
         throw error;
     }
 }
@@ -31,9 +34,9 @@ async function setupDatabase() {
             useNewUrlParser: true,
             useUnifiedTopology: true
         });
-        console.log('Connected to MongoDB');
+        console.log('MongoDB connection established successfully.');
     } catch (error) {
-        console.error('Failed to connect to MongoDB:', error);
+        console.error('MongoDB connection failed:', error.message);
         throw error;
     }
 }
@@ -44,11 +47,11 @@ async function setupDatabase() {
  */
 async function setup() {
     try {
-        await setupRabbitMQ();
+        const { connection, channel } = await setupRabbitMQ();
         await setupDatabase();
-        console.log('Environment setup complete');
+        console.log('All services initialized successfully.');
     } catch (error) {
-        console.error('Environment setup failed:', error);
+        console.error('Setup process encountered an error:', error.message);
         throw error;
     }
 }

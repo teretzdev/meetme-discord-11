@@ -1,7 +1,7 @@
 # meetme-discord-11
 
 ## Overview
-This project is a Node.js application designed for the MeetMe Discord application. It serves as a basic setup to ensure the Node.js environment is correctly configured.
+This project is a Node.js application designed for the MeetMe Discord application. It integrates various services such as MeetMe, Google Sheets, Discord, and an AI service to automate chat data processing and message sending.
 
 ## Prerequisites
 - Node.js and npm should be installed on your system. You can download them from [nodejs.org](https://nodejs.org/).
@@ -11,14 +11,14 @@ This project is a Node.js application designed for the MeetMe Discord applicatio
 - Discord account and a Discord bot for integration.
 
 ## Installation
-To install the necessary dependencies, run the following command in the project directory:
+To install the necessary dependencies, including new ones from the `meetme-discord-8-process` integration, run the following command in the project directory:
 
 ```bash
 npm install
 ```
 
 ## Environment Setup
-Create a `.env` file in the root directory of your project and add the following environment variables:
+Create a `.env` file in the root directory of your project and add the following environment variables, including any new ones required by the integrated components:
 
 ```
 PUPPETEER_HEADLESS=true
@@ -32,6 +32,7 @@ MEETME_USERNAME=your_meetme_username
 MEETME_PASSWORD=your_meetme_password
 AI_API_KEY=your_ai_api_key # API key for the AI service
 AI_API_URL=your_ai_api_url # URL for the AI service endpoint
+EXPRESS_PORT=3000 # Port for the Express server
 
 # Discord Bot Setup
 DISCORD_BOT_TOKEN=your_discord_bot_token
@@ -65,9 +66,10 @@ To integrate the AI service for processing messages, ensure you have the followi
 - **Google Sheets Integration**: Updates chat history in Google Sheets.
 - **AI Message Processing**: Processes messages using an AI service.
 - **Discord Message Sending**: Sends processed messages to a Discord channel.
+- **Express Server**: Provides an HTTP server for additional integrations and monitoring.
 
 ## Running the Application
-To start the application, use the following command:
+To start the application, ensuring all integrated services are running, use the following command:
 
 ```bash
 npm start

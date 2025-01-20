@@ -25,6 +25,12 @@ const config = {
     ai: {
         apiKey: process.env.AI_API_KEY,
         apiUrl: process.env.AI_API_URL
+    },
+    express: {
+        port: process.env.EXPRESS_PORT || 3000
+    },
+    express: {
+        port: process.env.EXPRESS_PORT || 3000
     }
 };
 

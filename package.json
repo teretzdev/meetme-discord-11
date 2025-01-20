@@ -1,12 +1,13 @@
 {
   "name": "meetme-discord-11",
   "version": "1.0.0",
-    "discord.js": "^14.0.0",
   "description": "A Node.js project for the MeetMe Discord application.",
   "main": "fetchMessages.js",
+    "setup": "node src/utils/setup.cjs",
   "type": "module",
   "scripts": {
-    "start": "node fetchMessages.js"
+    "start": "node fetchMessages.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "teretzdev",
   "license": "ISC",
@@ -16,7 +17,8 @@
     "dotenv": "^16.0.0",
     "amqplib": "^0.8.0",
     "mongoose": "^7.0.0",
-    "axios": "^1.3.0",
-    "discord.js": "^14.0.0"
+    "axios": "^1.4.0",
+    "discord.js": "^14.0.0",
+    "express": "^4.18.2"
   }
 }

@@ -21,6 +21,12 @@ async function authorize() {
     if (fs.existsSync(TOKEN_PATH)) {
         const token = fs.readFileSync(TOKEN_PATH, 'utf8');
         oAuth2Client.setCredentials(JSON.parse(token));
+        oAuth2Client.on('tokens', (tokens) => {
+            if (tokens.refresh_token) {
+                fs.writeFileSync(TOKEN_PATH, JSON.stringify(tokens));
+                console.log('Token refreshed and saved.');
+            }
+        });
         return oAuth2Client;
     } else {
         throw new Error('Token not found. Please authenticate the application.');
@@ -37,12 +43,17 @@ async function getChatHistory(auth) {
     const spreadsheetId = process.env.GOOGLE_SHEET_ID;
     const range = 'ChatHistory!A1:E'; // Adjust the range as needed
 
-    const response = await sheets.spreadsheets.values.get({
-        spreadsheetId,
-        range,
-    });
-
-    return response.data.values || [];
+    try {
+        const response = await sheets.spreadsheets.values.get({
+            spreadsheetId,
+            range,
+        });
+        console.log('Chat history retrieved successfully.');
+        return response.data.values || [];
+    } catch (error) {
+        console.error('Error retrieving chat history:', error.message);
+        throw error;
+    }
 }
 
 /**
@@ -56,14 +67,20 @@ async function updateChatHistory(auth, chatData) {
     const spreadsheetId = process.env.GOOGLE_SHEET_ID;
     const range = 'ChatHistory!A1:E'; // Adjust the range as needed
 
-    await sheets.spreadsheets.values.append({
-        spreadsheetId,
-        range,
-        valueInputOption: 'RAW',
-        resource: {
-            values: chatData,
-        },
-    });
+    try {
+        await sheets.spreadsheets.values.append({
+            spreadsheetId,
+            range,
+            valueInputOption: 'RAW',
+            resource: {
+                values: chatData,
+            },
+        });
+        console.log('Chat history updated successfully.');
+    } catch (error) {
+        console.error('Error updating chat history:', error.message);
+        throw error;
+    }
 }
 
 module.exports = {

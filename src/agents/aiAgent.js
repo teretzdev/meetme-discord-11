@@ -24,12 +24,16 @@ class AIAgent {
     async sendMessage(message) {
         try {
             const response = await axios.post(this.apiUrl, {
-                apiKey: this.apiKey,
                 message: message
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${this.apiKey}`,
+                    'Content-Type': 'application/json'
+                }
             });
             return response.data;
         } catch (error) {
-            console.error('Error sending message to AI service:', error);
+            console.error('Error sending message to AI service:', error.message);
             throw error;
         }
     }
@@ -47,7 +51,24 @@ class AIAgent {
             });
             return response.data;
         } catch (error) {
-            console.error('Error fetching responses from AI service:', error);
+            console.error('Error fetching responses from AI service:', error.message);
+            throw error;
+        }
+    }
+    /**
+     * Retrieves AI service status.
+     * @returns {Promise<Object>} The status of the AI service.
+     */
+    async getServiceStatus() {
+        try {
+            const response = await axios.get(`${this.apiUrl}/status`, {
+                headers: {
+                    'Authorization': `Bearer ${this.apiKey}`
+                }
+            });
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching AI service status:', error.message);
             throw error;
         }
     }

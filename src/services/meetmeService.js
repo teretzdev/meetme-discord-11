@@ -7,7 +7,10 @@ const puppeteer = require('puppeteer');
  * @returns {Promise<Browser>} The Puppeteer browser instance.
  */
 async function initializeBrowser() {
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch({ 
+        headless: process.env.PUPPETEER_HEADLESS === 'true',
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
     return browser;
 }
 
@@ -18,14 +21,20 @@ async function initializeBrowser() {
  */
 async function loginToMeetMe(page) {
     const loginUrl = 'https://www.meetme.com/login';
-    await page.goto(loginUrl, { waitUntil: 'networkidle2' });
+    try {
+        await page.goto(loginUrl, { waitUntil: 'networkidle2' });
 
-    // Replace with actual selectors and credentials
-    await page.type('#username', process.env.MEETME_USERNAME);
-    await page.type('#password', process.env.MEETME_PASSWORD);
-    await page.click('#loginButton');
+        // Replace with actual selectors and credentials
+        await page.type('#username', process.env.MEETME_USERNAME);
+        await page.type('#password', process.env.MEETME_PASSWORD);
+        await page.click('#loginButton');
 
-    await page.waitForNavigation({ waitUntil: 'networkidle2' });
+        await page.waitForNavigation({ waitUntil: 'networkidle2' });
+        console.log('Logged into MeetMe successfully.');
+    } catch (error) {
+        console.error('Failed to log into MeetMe:', error);
+        throw error;
+    }
 }
 
 /**
@@ -61,11 +70,16 @@ async function extractChatData(page) {
     const chatData = await page.evaluate(() => {
         const messages = [];
         document.querySelectorAll('.chat-message').forEach(msg => {
-            messages.push({
-                user: msg.querySelector('.user-name').innerText,
-                text: msg.querySelector('.message-text').innerText,
-                timestamp: msg.querySelector('.timestamp').innerText,
-            });
+            const userElement = msg.querySelector('.user-name');
+            const textElement = msg.querySelector('.message-text');
+            const timestampElement = msg.querySelector('.timestamp');
+            if (userElement && textElement && timestampElement) {
+                messages.push({
+                    user: userElement.innerText,
+                    text: textElement.innerText,
+                    timestamp: timestampElement.innerText,
+                });
+            }
         });
         return messages;
     });
@@ -77,5 +91,6 @@ module.exports = {
     loginToMeetMe,
     navigateToChatPage,
     handlePopUps,
-    extractChatData
+    extractChatData,
+    logoutFromMeetMe
 };
