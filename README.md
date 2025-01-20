@@ -6,6 +6,7 @@ This project is a Node.js application designed for the MeetMe Discord applicatio
 ## Prerequisites
 - Node.js and npm should be installed on your system. You can download them from [nodejs.org](https://nodejs.org/).
 - RabbitMQ and MongoDB should be installed and running on your system.
+- Ensure you have access to an AI service for message processing.
 - Google Cloud account for OAuth credentials setup.
 - Discord account and a Discord bot for integration.
 
@@ -29,6 +30,8 @@ GOOGLE_CREDENTIALS_PATH=path_to_your_credentials.json
 GOOGLE_TOKEN_PATH=path_to_your_token.json
 MEETME_USERNAME=your_meetme_username
 MEETME_PASSWORD=your_meetme_password
+AI_API_KEY=your_ai_api_key # API key for the AI service
+AI_API_URL=your_ai_api_url # URL for the AI service endpoint
 
 # Discord Bot Setup
 DISCORD_BOT_TOKEN=your_discord_bot_token
@@ -55,6 +58,7 @@ To set up the Discord bot, follow these steps:
 ## Features
 - **MeetMe Chat Data Extraction**: Extracts chat data from MeetMe.
 - **Google Sheets Integration**: Updates chat history in Google Sheets.
+- **AI Message Processing**: Processes messages using an AI service.
 - **Discord Message Sending**: Sends processed messages to a Discord channel.
 
 ## Running the Application
