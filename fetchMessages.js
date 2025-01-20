@@ -58,9 +58,6 @@ async function fetchMessages() {
         // Close the browser
         await browser.close();
 
-        // Close the browser
-        await browser.close();
-
         logger.info('Messages fetched and updated successfully.');
     } catch (error) {
         logger.error('Error fetching messages:', error);

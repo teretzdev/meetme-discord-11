@@ -30,7 +30,6 @@ GOOGLE_TOKEN_PATH=path_to_your_token.json
 MEETME_USERNAME=your_meetme_username
 MEETME_PASSWORD=your_meetme_password
 AI_API_KEY=your_ai_api_key # API key for the AI service
-# Removed AI_API_URL as it's not needed anymore
 
 # Discord Bot Setup
 DISCORD_BOT_TOKEN=your_discord_bot_token

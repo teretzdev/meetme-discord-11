@@ -75,18 +75,26 @@ async function getChatHistory(auth) {
 async function updateChatHistory(auth, chatData) {
     const logger = new Logger();
     try {
-        const sheets = google.sheets({ version: 'v4', auth });
-        const spreadsheetId = process.env.GOOGLE_SHEET_ID;
-        const range = 'ChatHistory!A1:E'; // Adjust the range as needed
+        const logger = new Logger();
+        try {
+            const sheets = google.sheets({ version: 'v4', auth });
+            const spreadsheetId = process.env.GOOGLE_SHEET_ID;
+            const range = 'ChatHistory!A1:E'; // Adjust the range as needed
 
-        await sheets.spreadsheets.values.append({
-            spreadsheetId,
-            range,
-            valueInputOption: 'RAW',
-            resource: {
-                values: chatData,
-            },
-        });
+            await sheets.spreadsheets.values.append({
+                spreadsheetId,
+                range,
+                valueInputOption: 'RAW',
+                resource: {
+                    values: chatData,
+                },
+            });
+
+            logger.info('Chat history updated successfully.');
+        } catch (error) {
+            logger.error('Failed to update chat history:', error);
+            throw error;
+        }
 
         logger.info('Chat history updated successfully.');
     } catch (error) {
