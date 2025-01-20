@@ -9,6 +9,7 @@ This project is a Node.js application designed for the MeetMe Discord applicatio
 - Ensure you have access to an AI service for message processing.
 - Google Cloud account for OAuth credentials setup.
 - Discord account and a Discord bot for integration.
+- Ensure `dotenv` is used for environment variable management.
 
 ## Installation
 To install the necessary dependencies, run the following command in the project directory:
@@ -18,7 +19,7 @@ npm install
 ```
 
 ## Environment Setup
-Create a `.env` file in the root directory of your project and add the following environment variables:
+Create a `.env` file in the root directory of your project and add the following environment variables. Ensure all variables are correctly set:
 
 ```
 PUPPETEER_HEADLESS=true
@@ -32,6 +33,7 @@ MEETME_USERNAME=your_meetme_username
 MEETME_PASSWORD=your_meetme_password
 AI_API_KEY=your_ai_api_key # API key for the AI service
 AI_API_URL=your_ai_api_url # URL for the AI service endpoint
+PUPPETEER_ARGS=--no-sandbox,--disable-setuid-sandbox # Additional Puppeteer arguments
 
 # Discord Bot Setup
 DISCORD_BOT_TOKEN=your_discord_bot_token
@@ -61,16 +63,17 @@ To integrate the AI service for processing messages, ensure you have the followi
 2. Your API key and endpoint URL, which should be added to the `.env` file as `AI_API_KEY` and `AI_API_URL`.
 
 ## Features
-- **MeetMe Chat Data Extraction**: Extracts chat data from MeetMe.
-- **Google Sheets Integration**: Updates chat history in Google Sheets.
-- **AI Message Processing**: Processes messages using an AI service.
-- **Discord Message Sending**: Sends processed messages to a Discord channel.
+- **MeetMe Chat Data Extraction**: Extracts chat data from MeetMe using Puppeteer.
+- **Google Sheets Integration**: Updates chat history in Google Sheets using Google Sheets API.
+- **AI Message Processing**: Processes messages using an AI service for enhanced interaction.
+- **Discord Message Sending**: Sends processed messages to a Discord channel using Discord.js.
+- **Environment Setup**: Utilizes `dotenv` for managing environment variables.
 
 ## Running the Application
-To start the application, use the following command:
+To start the application, ensure all services (RabbitMQ, MongoDB) are running and use the following command:
 
 ```bash
 npm start
 ```
 
-This command will execute the `fetchMessages.js` file, which integrates with MeetMe, Google Sheets, Discord, and an AI service to fetch and update chat messages.
+This command will execute the `fetchMessages.js` file, which integrates with MeetMe, Google Sheets, Discord, and an AI service to fetch and update chat messages. Ensure your `.env` file is correctly configured before running the application.
