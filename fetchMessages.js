@@ -1,7 +1,6 @@
 // fetchMessages.js
 
 // Import necessary modules and dependencies
-const puppeteer = require('puppeteer');
 const { Logger } = require('./src/utils/logger');
 const { setup } = require('./src/utils/setup.cjs');
 const { getChatHistory, updateChatHistory } = require('./src/services/sheetService');
@@ -48,7 +47,7 @@ async function fetchMessages() {
                 const content = `${processedMessage.user}: ${processedMessage.text} (at ${processedMessage.timestamp})`;
                 await sendMessage(discordChannelId, content);
             } catch (error) {
-                logger.error('Error processing message:', error);
+                logger.error('Error processing message:', error.message);
             }
         }
 
@@ -57,7 +56,7 @@ async function fetchMessages() {
 
         logger.info('Messages fetched and updated successfully.');
     } catch (error) {
-        logger.error('Error fetching messages:', error);
+        logger.error('Error fetching messages:', error.message);
     }
 }
 
@@ -68,13 +67,20 @@ async function fetchMessages() {
  */
 async function processMessage(message) {
     // Example processing logic: append AI response to the message text
-    const aiResponse = await aiAgent.sendMessage(message.text);
-    return {
-        user: message.user,
-        text: aiResponse.processedText,
-        timestamp: message.timestamp
-    };
+    try {
+        const aiResponse = await aiAgent.sendMessage(message.text);
+        return {
+            user: message.user,
+            text: aiResponse.processedText,
+            timestamp: message.timestamp
+        };
+    } catch (error) {
+        logger.error('Error processing AI message:', error.message);
+        throw error;
+    }
 }
 
-// Execute the fetchMessages function
+/**
+ * Execute the fetchMessages function to start the process.
+ */
 fetchMessages();
