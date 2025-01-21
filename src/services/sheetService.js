@@ -66,8 +66,5 @@ async function updateChatHistory(auth, chatData) {
     });
 }
 
-module.exports = {
-    authorize,
-    getChatHistory,
-    updateChatHistory,
-};
+module.exports.getChatHistory = getChatHistory;
+module.exports.updateChatHistory = updateChatHistory;
