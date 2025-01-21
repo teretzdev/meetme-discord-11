@@ -1,6 +1,7 @@
 // src/services/sheetService.js
 
 const { google } = require('googleapis');
+const eventEmitter = require('../events/eventEmitter');
 const fs = require('fs');
 const path = require('path');
 
@@ -65,6 +66,20 @@ async function updateChatHistory(auth, chatData) {
         },
     });
 }
+
+/**
+ * Listens for 'messageSent' events and updates chat history in Google Sheets.
+ */
+eventEmitter.on('messageSent', async (message) => {
+    try {
+        const auth = await authorize();
+        const chatData = [[message.user, message.text, message.timestamp]];
+        await updateChatHistory(auth, chatData);
+        console.log('Chat history updated successfully.');
+    } catch (error) {
+        console.error('Error updating chat history:', error);
+    }
+});
 
 module.exports = {
     authorize,

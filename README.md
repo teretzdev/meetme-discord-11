@@ -1,7 +1,7 @@
 # meetme-discord-11
 
 ## Overview
-This project is a Node.js application designed for the MeetMe Discord application. It serves as a basic setup to ensure the Node.js environment is correctly configured.
+This project is a Node.js application designed for the MeetMe Discord application, refactored into an event-driven architecture. It ensures the Node.js environment is correctly configured and integrates various services using events.
 
 ## Prerequisites
 - Node.js and npm should be installed on your system. You can download them from [nodejs.org](https://nodejs.org/).
@@ -62,11 +62,18 @@ To integrate the AI service for processing messages, ensure you have the followi
 1. An account with the AI service provider.
 2. Your API key and endpoint URL, which should be added to the `.env` file as `AI_API_KEY` and `AI_API_URL`.
 
+## Event-Driven Architecture
+The application is structured around an event-driven architecture, where key actions are triggered by events:
+- **fetchMessages**: Initiates the process by emitting a 'fetchMessages' event.
+- **messageFetched**: Triggered after chat data is extracted, leading to AI processing.
+- **messageProcessed**: Emitted after AI processing, prompting message sending to Discord.
+- **messageSent**: Indicates successful message delivery, updating chat history in Google Sheets.
+
 ## Features
-- **MeetMe Chat Data Extraction**: Extracts chat data from MeetMe using Puppeteer.
-- **Google Sheets Integration**: Updates chat history in Google Sheets using Google Sheets API.
-- **AI Message Processing**: Processes messages using an AI service for enhanced interaction.
-- **Discord Message Sending**: Sends processed messages to a Discord channel using Discord.js.
+- **MeetMe Chat Data Extraction**: Extracts chat data from MeetMe using Puppeteer and emits events for further processing.
+- **Google Sheets Integration**: Updates chat history in Google Sheets using Google Sheets API upon receiving events.
+- **AI Message Processing**: Processes messages using an AI service for enhanced interaction, triggered by events.
+- **Discord Message Sending**: Sends processed messages to a Discord channel using Discord.js, based on event triggers.
 - **Environment Setup**: Utilizes `dotenv` for managing environment variables.
 
 ## Running the Application
@@ -76,4 +83,4 @@ To start the application, ensure all services (RabbitMQ, MongoDB) are running an
 npm start
 ```
 
-This command will execute the `fetchMessages.js` file, which integrates with MeetMe, Google Sheets, Discord, and an AI service to fetch and update chat messages. Ensure your `.env` file is correctly configured before running the application.
+This command will execute the `fetchMessages.js` file, which now operates in an event-driven manner. It integrates with MeetMe, Google Sheets, Discord, and an AI service to fetch and update chat messages through a series of events. Ensure your `.env` file is correctly configured before running the application.

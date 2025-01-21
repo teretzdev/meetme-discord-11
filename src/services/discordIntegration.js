@@ -1,5 +1,6 @@
 require('dotenv').config();
 const { Client, GatewayIntentBits } = require('discord.js');
+const eventEmitter = require('../events/eventEmitter');
 
 // Initialize Discord client
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
@@ -34,6 +35,21 @@ async function sendMessage(channelId, content) {
         console.error('Error sending message:', error);
     }
 }
+
+/**
+ * Listens for 'messageProcessed' events and sends messages to Discord.
+ */
+eventEmitter.on('messageProcessed', async (processedMessages) => {
+    const discordChannelId = process.env.DISCORD_CHANNEL_ID;
+    for (const message of processedMessages) {
+        try {
+            await sendMessage(discordChannelId, `${message.user}: ${message.text} (at ${message.timestamp})`);
+            eventEmitter.emit('messageSent', message);
+        } catch (error) {
+            console.error('Error sending processed message to Discord:', error);
+        }
+    }
+});
 
 // Log in to Discord with the bot token
 client.login(process.env.DISCORD_BOT_TOKEN);
