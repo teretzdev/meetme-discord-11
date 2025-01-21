@@ -2,6 +2,7 @@
 
 require('dotenv').config();
 const axios = require('axios');
+const eventEmitter = require('../events/eventEmitter');
 
 /**
  * AIAgent class to interact with an AI service.
@@ -14,6 +15,27 @@ class AIAgent {
         if (!this.apiKey || !this.apiUrl) {
             throw new Error('AI API configuration is missing. Please check your environment variables.');
         }
+    }
+
+    /**
+     * Listens for 'messageFetched' events and processes messages using AI.
+     */
+    listenForMessages() {
+        eventEmitter.on('messageFetched', async (chatData) => {
+            try {
+                const processedMessages = await Promise.all(chatData.map(async (message) => {
+                    const aiResponse = await this.sendMessage(message.text);
+                    return {
+                        user: message.user,
+                        text: aiResponse.processedText,
+                        timestamp: message.timestamp
+                    };
+                }));
+                eventEmitter.emit('messageProcessed', processedMessages);
+            } catch (error) {
+                console.error('Error processing messages:', error);
+            }
+        });
     }
 
     /**
@@ -54,3 +76,7 @@ class AIAgent {
 }
 
 module.exports = AIAgent;
+
+// Initialize and start listening for messages
+const aiAgent = new AIAgent();
+aiAgent.listenForMessages();

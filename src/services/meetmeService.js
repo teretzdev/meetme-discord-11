@@ -1,6 +1,7 @@
 // src/services/meetmeService.js
 
 const puppeteer = require('puppeteer');
+const eventEmitter = require('../events/eventEmitter');
 
 /**
  * Initializes a Puppeteer browser instance.
@@ -69,6 +70,8 @@ async function extractChatData(page) {
         });
         return messages;
     });
+    // Emit 'messageFetched' event with the chat data as payload
+    eventEmitter.emit('messageFetched', chatData);
     return chatData;
 }
 
