@@ -18,23 +18,42 @@ class AIAgent {
     }
 
     /**
+     * Parses incoming messages for processing.
+     * @param {Object} message - The message object to parse.
+     * @returns {Object} The parsed message.
+     */
+    parseMessage(message) {
+        // Example parsing logic
+        return {
+            user: message.user.trim(),
+            text: message.text.trim(),
+            timestamp: new Date(message.timestamp).toISOString()
+        };
+    }
+
+    /**
      * Listens for 'messageFetched' events and processes messages using AI.
      */
     listenForMessages() {
         eventEmitter.on('messageFetched', async (chatData) => {
             try {
-                const processedMessages = await Promise.all(chatData.map(async (message) => {
+                const processedMessages = await Promise.all(chatData.map(async (rawMessage) => {
+                    const message = this.parseMessage(rawMessage);
                     const aiResponse = await this.sendMessage(message.text);
                     return {
                         user: message.user,
-                        text: aiResponse.processedText,
+                        text: aiResponse.processedText || message.text,
                         timestamp: message.timestamp
                     };
                 }));
                 console.log('Processed messages:', processedMessages);
-                eventEmitter.emit('messageProcessed', { messages: processedMessages });
+                eventEmitter.emit('messageProcessed', processedMessages);
             } catch (error) {
-                console.error('Error processing messages:', error);
+                console.error('Error processing messages:', {
+                    message: error.message,
+                    stack: error.stack,
+                    chatData
+                });
             }
         });
     }
@@ -52,7 +71,11 @@ class AIAgent {
             });
             return response.data;
         } catch (error) {
-            console.error('Error sending message to AI service:', error);
+            console.error('Error sending message to AI service:', {
+                message: error.message,
+                stack: error.stack,
+                requestData: { message }
+            });
             throw error;
         }
     }

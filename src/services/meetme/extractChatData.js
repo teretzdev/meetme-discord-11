@@ -13,11 +13,17 @@ async function extractChatData(page) {
     const chatData = await page.evaluate(() => {
         const messages = [];
         document.querySelectorAll('.chat-message').forEach(msg => {
-            messages.push({
-                user: msg.querySelector('.user-name').innerText,
-                text: msg.querySelector('.message-text').innerText,
-                timestamp: msg.querySelector('.timestamp').innerText,
-            });
+            const user = msg.querySelector('.user-name')?.innerText.trim();
+            const text = msg.querySelector('.message-text')?.innerText.trim();
+            const timestamp = msg.querySelector('.timestamp')?.innerText.trim();
+
+            if (user && text && timestamp) {
+                messages.push({
+                    user,
+                    text,
+                    timestamp: new Date(timestamp).toISOString()
+                });
+            }
         });
         return messages;
     });

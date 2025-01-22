@@ -4,6 +4,7 @@
 const eventEmitter = require('../events/eventEmitter');
 const fs = require('fs');
 const path = require('path');
+const { sendNotification } = require('../utils/notificationService');
 
 // Define the path for the log file
 const logFilePath = path.join(__dirname, '../../logs/processedMessages.log');
@@ -20,7 +21,7 @@ if (!fs.existsSync(path.dirname(logFilePath))) {
  */
 function handleProcessedMessage(processedMessages) {
     processedMessages.forEach(message => {
-        const logEntry = `User: ${message.user}, Message: ${message.text}, Timestamp: ${message.timestamp}\\n`;
+        const logEntry = `User: ${message.user}, Message: ${message.text}, Timestamp: ${message.timestamp}\\\n`;
         
         // Log to console
         console.log('Processed Message:', logEntry);
@@ -31,10 +32,25 @@ function handleProcessedMessage(processedMessages) {
                 console.error('Failed to write to log file:', err);
             }
         });
+
+        // Send notification
+        sendNotification(`New message processed: ${message.text}`);
+
+        // Handle alerts
+        if (message.text.includes('urgent')) {
+            console.warn('Alert: Urgent message detected!');
+            eventEmitter.emit('urgentMessage', message);
+        }
     });
 }
 
 // Set up the event listener for 'messageProcessed'
 eventEmitter.on('messageProcessed', handleProcessedMessage);
+
+// Listen for urgent messages
+eventEmitter.on('urgentMessage', (message) => {
+    console.log('Handling urgent message:', message);
+    // Additional logic for urgent messages
+});
 
 console.log('Internal Notifier is listening for messageProcessed events.');

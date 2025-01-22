@@ -1,7 +1,6 @@
 // fetchMessages.js
 
 require('./src/services/internalNotifier');
-require('./src/services/internalNotifier');
 // Import necessary modules and dependencies
 const eventEmitter = require('./src/events/eventEmitter');
 const { Logger } = require('./src/utils/logger');
@@ -18,6 +17,7 @@ const AIAgent = require('./src/agents/aiAgent');
 const logger = new Logger();
 
 const aiAgent = new AIAgent();
+aiAgent.listenForMessages();
 
 async function fetchMessages() {
     try {
@@ -36,9 +36,10 @@ async function fetchMessages() {
         // Handle any pop-ups
         await handlePopUps(page);
 
-        // Emit 'fetchMessages' event to start the process
-        logger.logEventEmitted('fetchMessages');
-        eventEmitter.emit('fetchMessages', page);
+        // Extract chat data and emit 'messageFetched' event
+        const chatData = await extractChatData(page);
+        logger.logEventEmitted('messageFetched');
+        eventEmitter.emit('messageFetched', chatData);
 
         // Close the browser
         await browser.close();
