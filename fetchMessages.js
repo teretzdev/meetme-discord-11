@@ -1,6 +1,7 @@
 // fetchMessages.js
 
 require('./src/services/internalNotifier');
+require('./src/services/internalNotifier');
 // Import necessary modules and dependencies
 const eventEmitter = require('./src/events/eventEmitter');
 const { Logger } = require('./src/utils/logger');
