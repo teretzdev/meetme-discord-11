@@ -1,7 +1,7 @@
 # meetme-discord-11
 
 ## Overview
-This project is a Node.js application designed for the MeetMe Discord application, refactored into an event-driven architecture. It ensures the Node.js environment is correctly configured and integrates various services using events.
+This project is a Node.js application designed for the MeetMe Discord application, refactored into an event-driven architecture. It ensures the Node.js environment is correctly configured and integrates various services using events. The application consolidates fetching, processing, and sending messages into a seamless event-driven flow.
 
 ## Prerequisites
 - Node.js and npm should be installed on your system. You can download them from [nodejs.org](https://nodejs.org/).
@@ -53,6 +53,7 @@ The application is structured around an event-driven architecture, where key act
 - **fetchMessages**: Initiates the process by emitting a 'fetchMessages' event.
 - **messageFetched**: Triggered after chat data is extracted, leading to AI processing.
 - **messageProcessed**: Emitted after AI processing, updating chat history in Google Sheets.
+- **Event Flow**: The flow begins with fetching messages, processing them with AI, and finally updating the chat history. Each step is triggered by specific events, ensuring a reactive and efficient process.
 
 ## Features
 - **MeetMe Chat Data Extraction**: Extracts chat data from MeetMe using Puppeteer and emits events for further processing.
@@ -67,4 +68,4 @@ To start the application, ensure all services (RabbitMQ, MongoDB) are running an
 npm start
 ```
 
-This command will execute the `fetchMessages.js` file, which now operates in an event-driven manner. It integrates with MeetMe, Google Sheets, and an AI service to fetch and update chat messages through a series of events. Ensure your `.env` file is correctly configured before running the application.
+This command will execute the `fetchMessages.js` file, which now operates in an event-driven manner. It integrates with MeetMe, Google Sheets, and an AI service to fetch and update chat messages through a series of events. Ensure your `.env` file is correctly configured before running the application. The application will automatically handle message fetching, processing, and updating through its event-driven architecture.

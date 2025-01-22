@@ -6,5 +6,8 @@ const EventEmitter = require('events');
 // Create a new instance of EventEmitter
 const eventEmitter = new EventEmitter();
 
-// Export the instance for use in other modules
+/**
+ * Export the eventEmitter instance for use in other modules.
+ * This instance is used to emit and listen for events across the application.
+ */
 module.exports = eventEmitter;
