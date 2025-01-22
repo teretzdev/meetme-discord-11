@@ -22,9 +22,9 @@ async function loginToMeetMe(page) {
     await page.goto(loginUrl, { waitUntil: 'networkidle2' });
 
     // Replace with actual selectors and credentials
-    await page.type('#username', process.env.MEETME_USERNAME);
-    await page.type('#password', process.env.MEETME_PASSWORD);
-    await page.click('#loginButton');
+    await page.type('.original-username-selector', process.env.MEETME_USERNAME);
+    await page.type('.original-password-selector', process.env.MEETME_PASSWORD);
+    await page.click('.original-login-button-selector');
 
     await page.waitForNavigation({ waitUntil: 'networkidle2' });
 }
@@ -35,7 +35,7 @@ async function loginToMeetMe(page) {
  * @returns {Promise<void>}
  */
 async function navigateToChatPage(page) {
-    const chatUrl = 'https://www.meetme.com/chat';
+    const chatUrl = 'https://www.meetme.com/original-chat-url';
     await page.goto(chatUrl, { waitUntil: 'networkidle2' });
 }
 
@@ -46,7 +46,7 @@ async function navigateToChatPage(page) {
  */
 async function handlePopUps(page) {
     // Example: Close any pop-up if it appears
-    const popUpSelector = '.popup-close-button';
+    const popUpSelector = '.original-popup-close-selector';
     if (await page.$(popUpSelector)) {
         await page.click(popUpSelector);
     }
@@ -61,11 +61,11 @@ async function extractChatData(page) {
     // Replace with actual logic to extract chat data
     const chatData = await page.evaluate(() => {
         const messages = [];
-        document.querySelectorAll('.chat-message').forEach(msg => {
+        document.querySelectorAll('.original-chat-message-selector').forEach(msg => {
             messages.push({
-                user: msg.querySelector('.user-name').innerText,
-                text: msg.querySelector('.message-text').innerText,
-                timestamp: msg.querySelector('.timestamp').innerText,
+                user: msg.querySelector('.original-user-name-selector').innerText,
+                text: msg.querySelector('.original-message-text-selector').innerText,
+                timestamp: msg.querySelector('.original-timestamp-selector').innerText,
             });
         });
         return messages;
