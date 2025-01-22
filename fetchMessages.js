@@ -5,7 +5,11 @@ const eventEmitter = require('./src/events/eventEmitter');
 const { Logger } = require('./src/utils/logger');
 const { setup } = require('./src/utils/setup.cjs');
 const { getChatHistory, updateChatHistory } = require('./src/services/sheetService');
-const { initializeBrowser, loginToMeetMe, navigateToChatPage, handlePopUps, extractChatData } = require('./src/services/meetmeService');
+const { initializeBrowser } = require('./src/services/meetme/initializeBrowser');
+const { loginToMeetMe } = require('./src/services/meetme/loginToMeetMe');
+const { navigateToChatPage } = require('./src/services/meetme/navigateToChatPage');
+const { handlePopUps } = require('./src/services/meetme/handlePopUps');
+const { extractChatData } = require('./src/services/meetme/extractChatData');
 const { sendMessage } = require('./src/services/discordIntegration');
 const AIAgent = require('./src/agents/aiAgent');
 
