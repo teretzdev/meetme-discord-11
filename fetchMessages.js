@@ -4,18 +4,14 @@
 const eventEmitter = require('./src/events/eventEmitter');
 const { Logger } = require('./src/utils/logger');
 const { setup } = require('./src/utils/setup.cjs');
-const { getChatHistory, updateChatHistory } = require('./src/services/sheetService');
 const { initializeBrowser } = require('./src/services/meetme/initializeBrowser');
 const { loginToMeetMe } = require('./src/services/meetme/loginToMeetMe');
 const { navigateToChatPage } = require('./src/services/meetme/navigateToChatPage');
 const { handlePopUps } = require('./src/services/meetme/handlePopUps');
 const { extractChatData } = require('./src/services/meetme/extractChatData');
-const AIAgent = require('./src/agents/aiAgent');
 
 // Initialize logger
 const logger = new Logger();
-
-const aiAgent = new AIAgent();
 
 async function fetchMessages() {
     try {
@@ -44,7 +40,7 @@ async function fetchMessages() {
         // Close the browser
         await browser.close();
 
-        logger.info('Messages fetched and updated successfully.');
+        logger.info('Messages fetched successfully.');
     } catch (error) {
         logger.error('Error fetching messages:', error.message);
     }

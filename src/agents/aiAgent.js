@@ -33,6 +33,7 @@ class AIAgent {
                 }));
                 console.log('Processed messages:', processedMessages);
                 eventEmitter.emit('messageProcessed', processedMessages);
+                console.log('EVENT EMITTED: messageProcessed');
             } catch (error) {
                 console.error('Error processing messages:', error);
             }
