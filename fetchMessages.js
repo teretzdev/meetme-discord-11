@@ -34,9 +34,12 @@ async function fetchMessages() {
         // Handle any pop-ups
         await handlePopUps(page);
 
-        // Emit 'fetchMessages' event to start the process
-        logger.logEventEmitted('fetchMessages');
-        eventEmitter.emit('fetchMessages', page);
+        // Extract chat data
+        const chatData = await extractChatData(page);
+
+        // Emit 'messageFetched' event with the extracted chat data
+        logger.logEventEmitted('messageFetched');
+        eventEmitter.emit('messageFetched', chatData);
 
         // Close the browser
         await browser.close();
