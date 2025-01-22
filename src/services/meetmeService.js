@@ -75,6 +75,15 @@ async function extractChatData(page) {
     return chatData;
 }
 
+eventEmitter.on('fetchMessages', async (page) => {
+    try {
+        const chatData = await extractChatData(page);
+        eventEmitter.emit('messageFetched', chatData);
+    } catch (error) {
+        console.error('Error fetching messages:', error);
+    }
+});
+
 module.exports = {
     initializeBrowser,
     loginToMeetMe,

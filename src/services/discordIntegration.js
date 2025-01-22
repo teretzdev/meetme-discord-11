@@ -44,6 +44,7 @@ eventEmitter.on('messageProcessed', async (processedMessages) => {
     for (const message of processedMessages) {
         try {
             await sendMessage(discordChannelId, `${message.user}: ${message.text} (at ${message.timestamp})`);
+            console.log(`Processed message sent to Discord: ${message.user}: ${message.text} (at ${message.timestamp})`);
             eventEmitter.emit('messageSent', message);
         } catch (error) {
             console.error('Error sending processed message to Discord:', error);

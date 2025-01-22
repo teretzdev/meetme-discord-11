@@ -17,7 +17,7 @@ class Logger {
      * @param {string} eventName - The name of the event.
      */
     logEventEmitted(eventName) {
-        console.log(`EVENT EMITTED: ${eventName}`);
+        console.log(`EVENT EMITTED: ${eventName} at ${new Date().toISOString()}`);
     }
 
     /**
@@ -25,7 +25,7 @@ class Logger {
      * @param {string} eventName - The name of the event.
      */
     logEventHandled(eventName) {
-        console.log(`EVENT HANDLED: ${eventName}`);
+        console.log(`EVENT HANDLED: ${eventName} at ${new Date().toISOString()}`);
     }
 
     /**
