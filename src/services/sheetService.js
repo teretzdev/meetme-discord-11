@@ -68,9 +68,9 @@ async function updateChatHistory(auth, chatData) {
 }
 
 /**
- * Listens for 'messageSent' events and updates chat history in Google Sheets.
+ * Listens for 'messageProcessed' events and updates chat history in Google Sheets.
  */
-eventEmitter.on('messageSent', async (message) => {
+eventEmitter.on('messageProcessed', async (message) => {
     try {
         const auth = await authorize();
         const chatData = [[message.user, message.text, message.timestamp]];
