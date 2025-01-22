@@ -32,6 +32,7 @@ async function fetchMessages() {
         await handlePopUps(page);
 
         // Emit 'fetchMessages' event to start the process
+        logger.logEventEmitted('fetchMessages');
         eventEmitter.emit('fetchMessages', page);
 
         // Close the browser

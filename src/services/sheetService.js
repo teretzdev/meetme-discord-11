@@ -74,6 +74,7 @@ eventEmitter.on('messageSent', async (message) => {
     try {
         const auth = await authorize();
         const chatData = [[message.user, message.text, message.timestamp]];
+        console.log('Appending chat data to Google Sheets:', chatData);
         await updateChatHistory(auth, chatData);
         console.log('Chat history updated successfully.');
     } catch (error) {
