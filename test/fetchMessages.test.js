@@ -87,6 +87,49 @@ describe('fetchMessages', () => {
         expect(eventEmitter.emit).toHaveBeenCalledWith('messageFetched', chatData);
     });
 
+    it('should initialize the browser and create a new page', async () => {
+        await fetchMessages();
+
+        const browser = await puppeteer.launch();
+        expect(browser.newPage).toHaveBeenCalled();
+    });
+
+    it('should login to MeetMe', async () => {
+        const page = await puppeteer.launch().newPage();
+        await fetchMessages();
+
+        expect(page.goto).toHaveBeenCalledWith('https://www.meetme.com/login', { waitUntil: 'networkidle2' });
+        expect(page.type).toHaveBeenCalledWith('#username', process.env.MEETME_USERNAME);
+        expect(page.type).toHaveBeenCalledWith('#password', process.env.MEETME_PASSWORD);
+        expect(page.click).toHaveBeenCalledWith('#loginButton');
+        expect(page.waitForNavigation).toHaveBeenCalledWith({ waitUntil: 'networkidle2' });
+    });
+
+    it('should navigate to the chat page', async () => {
+        const page = await puppeteer.launch().newPage();
+        await fetchMessages();
+
+        expect(page.goto).toHaveBeenCalledWith('https://www.meetme.com/chat', { waitUntil: 'networkidle2' });
+    });
+
+    it('should handle pop-ups', async () => {
+        const page = await puppeteer.launch().newPage();
+        page.$.mockResolvedValue(true); // Simulate pop-up presence
+        await fetchMessages();
+
+        expect(page.click).toHaveBeenCalledWith('.popup-close-button');
+    });
+
+    it('should extract chat data', async () => {
+        const page = await puppeteer.launch().newPage();
+        const chatData = [{ user: 'User1', text: 'Hello', timestamp: '10:00 AM' }];
+        page.evaluate.mockResolvedValue(chatData);
+        await fetchMessages();
+
+        expect(page.evaluate).toHaveBeenCalled();
+        expect(eventEmitter.emit).toHaveBeenCalledWith('messageFetched', chatData);
+    });
+
     it('should handle errors gracefully', async () => {
         const errorMessage = 'Test error';
         setup.mockRejectedValueOnce(new Error(errorMessage));
