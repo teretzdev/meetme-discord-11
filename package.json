@@ -5,16 +5,20 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "start": "node fetchMessages.js"
+    "start": "node fetchMessages.js",
+    "test": "jest"
   },
   "author": "teretzdev",
   "license": "ISC",
   "dependencies": {
-    "puppeteer": "^19.7.0",
-    "googleapis": "^105.0.0",
-    "dotenv": "^16.3.1",
     "amqplib": "^0.10.3",
+    "axios": "^1.5.0",
+    "dotenv": "^16.3.1",
+    "googleapis": "^105.0.0",
     "mongoose": "^7.5.0",
-    "axios": "^1.5.0"
+    "puppeteer": "^19.7.0"
+  },
+  "devDependencies": {
+    "mocha": "^11.1.0"
   }
 }
