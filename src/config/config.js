@@ -25,6 +25,9 @@ const config = {
     ai: {
         apiKey: process.env.AI_API_KEY,
         apiUrl: process.env.AI_API_URL
+    },
+    server: {
+        port: process.env.SERVER_PORT || 8080
     }
 };
 
