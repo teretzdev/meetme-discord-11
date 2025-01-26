@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node fetchMessages.js",
+    "dev": "nodemon fetchMessages.js",
     "test": "jest"
   },
   "author": "teretzdev",
@@ -20,6 +21,7 @@
   },
   "devDependencies": {
     "jest": "^29.7.0",
-    "mocha": "^11.1.0"
+    "mocha": "^11.1.0",
+    "nodemon": "^3.0.0"
   }
 }
