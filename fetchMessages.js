@@ -1,16 +1,16 @@
 // fetchMessages.js
 
 // Import necessary modules and dependencies
-const eventEmitter = require('./src/events/eventEmitter');
-const { Logger } = require('./src/utils/logger');
-const { setup } = require('./src/utils/setup.cjs');
-const { getChatHistory, updateChatHistory } = require('./src/services/sheetService');
-const { initializeBrowser } = require('./src/services/meetme/initializeBrowser');
-const { loginToMeetMe } = require('./src/services/meetme/loginToMeetMe');
-const { navigateToChatPage } = require('./src/services/meetme/navigateToChatPage');
-const { handlePopUps } = require('./src/services/meetme/handlePopUps');
-const { extractChatData } = require('./src/services/meetme/extractChatData');
-const AIAgent = require('./src/agents/aiAgent');
+import eventEmitter from './src/events/eventEmitter.js';
+import { Logger } from './src/utils/logger.js';
+import { setup } from './src/utils/setup.cjs';
+import { getChatHistory, updateChatHistory } from './src/services/sheetService.js';
+import { initializeBrowser } from './src/services/meetme/initializeBrowser.js';
+import { loginToMeetMe } from './src/services/meetme/loginToMeetMe.js';
+import { navigateToChatPage } from './src/services/meetme/navigateToChatPage.js';
+import { handlePopUps } from './src/services/meetme/handlePopUps.js';
+import { extractChatData } from './src/services/meetme/extractChatData.js';
+import AIAgent from './src/agents/aiAgent.js';
 
 // Initialize logger
 const logger = new Logger();
