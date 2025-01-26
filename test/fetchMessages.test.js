@@ -52,4 +52,56 @@ describe('fetchMessages', () => {
 
         expect(Logger.prototype.error).toHaveBeenCalledWith('Error fetching messages:', errorMessage);
     });
+
+    it('should handle network errors during browser initialization', async () => {
+        const errorMessage = 'Network error';
+        puppeteer.launch.mockRejectedValueOnce(new Error(errorMessage));
+
+        await fetchMessages();
+
+        expect(Logger.prototype.error).toHaveBeenCalledWith('Error initializing browser:', errorMessage);
+    });
+
+    it('should handle authentication failures during login', async () => {
+        const errorMessage = 'Authentication failed';
+        puppeteer.launch.mockResolvedValueOnce({
+            newPage: jest.fn().mockResolvedValue({
+                goto: jest.fn(),
+                type: jest.fn(),
+                click: jest.fn().mockImplementationOnce(() => {
+                    throw new Error(errorMessage);
+                }),
+                waitForNavigation: jest.fn(),
+                evaluate: jest.fn().mockResolvedValue([]),
+                close: jest.fn()
+            }),
+            close: jest.fn()
+        });
+
+        await fetchMessages();
+
+        expect(Logger.prototype.error).toHaveBeenCalledWith('Error logging into MeetMe:', errorMessage);
+    });
+
+    it('should handle different chat data structures', async () => {
+        const chatData = [
+            { user: 'User1', text: 'Hello', timestamp: '2023-10-01T10:00:00Z' },
+            { user: 'User2', text: 'Hi', timestamp: '2023-10-01T10:01:00Z' }
+        ];
+        puppeteer.launch.mockResolvedValueOnce({
+            newPage: jest.fn().mockResolvedValue({
+                goto: jest.fn(),
+                type: jest.fn(),
+                click: jest.fn(),
+                waitForNavigation: jest.fn(),
+                evaluate: jest.fn().mockResolvedValue(chatData),
+                close: jest.fn()
+            }),
+            close: jest.fn()
+        });
+
+        await fetchMessages();
+
+        expect(eventEmitter.emit).toHaveBeenCalledWith('messageFetched', chatData);
+    });
 });

@@ -4,27 +4,44 @@ const { google } = require('googleapis');
 const eventEmitter = require('../events/eventEmitter');
 const fs = require('fs');
 const path = require('path');
+const { Logger } = require('../utils/logger');
 
 // Load client secrets from a local file or environment variables
 const CREDENTIALS_PATH = path.join(__dirname, '../../credentials.json');
 const TOKEN_PATH = path.join(__dirname, '../../token.json');
 
+const cache = new Map();
+const logger = new Logger();
+
 /**
  * Authorizes the client with credentials, then calls the callback function.
+ * Implements caching for the OAuth2 client.
  * @returns {Promise<OAuth2Client>} The authenticated Google OAuth2 client.
  */
 async function authorize() {
-    const credentials = JSON.parse(fs.readFileSync(CREDENTIALS_PATH, 'utf8'));
-    const { client_secret, client_id, redirect_uris } = credentials.installed;
-    const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
+    if (cache.has('authClient')) {
+        logger.info('Using cached OAuth2 client.');
+        return cache.get('authClient');
+    }
 
-    // Check if we have previously stored a token.
-    if (fs.existsSync(TOKEN_PATH)) {
-        const token = fs.readFileSync(TOKEN_PATH, 'utf8');
-        oAuth2Client.setCredentials(JSON.parse(token));
-        return oAuth2Client;
-    } else {
-        throw new Error('Token not found. Please authenticate the application.');
+    try {
+        const credentials = JSON.parse(fs.readFileSync(CREDENTIALS_PATH, 'utf8'));
+        const { client_secret, client_id, redirect_uris } = credentials.installed;
+        const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
+
+        // Check if we have previously stored a token.
+        if (fs.existsSync(TOKEN_PATH)) {
+            const token = fs.readFileSync(TOKEN_PATH, 'utf8');
+            oAuth2Client.setCredentials(JSON.parse(token));
+            cache.set('authClient', oAuth2Client);
+            logger.info('OAuth2 client authorized and cached.');
+            return oAuth2Client;
+        } else {
+            throw new Error('Token not found. Please authenticate the application.');
+        }
+    } catch (error) {
+        logger.error('Error authorizing OAuth2 client:', error.message);
+        throw error;
     }
 }
 
@@ -38,12 +55,18 @@ async function getChatHistory(auth) {
     const spreadsheetId = process.env.GOOGLE_SHEET_ID;
     const range = 'ChatHistory!A1:E'; // Adjust the range as needed
 
-    const response = await sheets.spreadsheets.values.get({
-        spreadsheetId,
-        range,
-    });
+    try {
+        const response = await sheets.spreadsheets.values.get({
+            spreadsheetId,
+            range,
+        });
 
-    return response.data.values || [];
+        logger.info('Chat history retrieved successfully.');
+        return response.data.values || [];
+    } catch (error) {
+        logger.error('Error retrieving chat history:', error.message);
+        throw error;
+    }
 }
 
 /**
@@ -57,14 +80,33 @@ async function updateChatHistory(auth, chatData) {
     const spreadsheetId = process.env.GOOGLE_SHEET_ID;
     const range = 'ChatHistory!A1:E'; // Adjust the range as needed
 
-    await sheets.spreadsheets.values.append({
-        spreadsheetId,
-        range,
-        valueInputOption: 'RAW',
-        resource: {
-            values: chatData,
-        },
-    });
+    const maxRetries = 5;
+    let attempt = 0;
+
+    while (attempt < maxRetries) {
+        try {
+            await sheets.spreadsheets.values.append({
+                spreadsheetId,
+                range,
+                valueInputOption: 'RAW',
+                resource: {
+                    values: chatData,
+                },
+            });
+            logger.info('Chat history updated successfully.');
+            break;
+        } catch (error) {
+            if (error.code === 429) { // Rate limit error
+                attempt++;
+                const delay = Math.pow(2, attempt) * 1000; // Exponential backoff
+                logger.warn(`Rate limit exceeded. Retrying in ${delay / 1000} seconds...`);
+                await new Promise(resolve => setTimeout(resolve, delay));
+            } else {
+                logger.error('Error updating chat history:', error.message);
+                throw error;
+            }
+        }
+    }
 }
 
 /**
@@ -75,12 +117,12 @@ eventEmitter.on('messageProcessed', async (messages) => {
         const auth = await authorize();
         for (const message of messages) {
             const chatData = [[message.user, message.text, message.timestamp]];
-            console.log('Appending chat data to Google Sheets:', chatData);
+            logger.info('Appending chat data to Google Sheets:', chatData);
             await updateChatHistory(auth, chatData);
-            console.log('Chat history updated successfully for message:', message);
+            logger.info('Chat history updated successfully for message:', message);
         }
     } catch (error) {
-        console.error('Error updating chat history:', error);
+        logger.error('Error updating chat history:', error.message);
     }
 });
 
