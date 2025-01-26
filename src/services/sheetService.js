@@ -38,12 +38,17 @@ async function getChatHistory(auth) {
     const spreadsheetId = process.env.GOOGLE_SHEET_ID;
     const range = 'ChatHistory!A1:E'; // Adjust the range as needed
 
-    const response = await sheets.spreadsheets.values.get({
-        spreadsheetId,
-        range,
-    });
-
-    return response.data.values || [];
+    try {
+        const response = await sheets.spreadsheets.values.get({
+            spreadsheetId,
+            range,
+        });
+        logger.info('Chat history retrieved successfully.');
+        return response.data.values || [];
+    } catch (error) {
+        logger.error('Error retrieving chat history:', error.message);
+        throw error;
+    }
 }
 
 /**
@@ -57,14 +62,33 @@ async function updateChatHistory(auth, chatData) {
     const spreadsheetId = process.env.GOOGLE_SHEET_ID;
     const range = 'ChatHistory!A1:E'; // Adjust the range as needed
 
-    await sheets.spreadsheets.values.append({
-        spreadsheetId,
-        range,
-        valueInputOption: 'RAW',
-        resource: {
-            values: chatData,
-        },
-    });
+    const maxRetries = 5;
+    let attempt = 0;
+
+    while (attempt < maxRetries) {
+        try {
+            await sheets.spreadsheets.values.append({
+                spreadsheetId,
+                range,
+                valueInputOption: 'RAW',
+                resource: {
+                    values: chatData,
+                },
+            });
+            logger.info('Chat history updated successfully.');
+            break;
+        } catch (error) {
+            if (error.code === 429) { // Rate limit error
+                attempt++;
+                const delay = Math.pow(2, attempt) * 1000; // Exponential backoff
+                logger.warn(`Rate limit exceeded. Retrying in ${delay / 1000} seconds...`);
+                await new Promise(resolve => setTimeout(resolve, delay));
+            } else {
+                logger.error('Error updating chat history:', error.message);
+                throw error;
+            }
+        }
+    }
 }
 
 /**
@@ -75,12 +99,12 @@ eventEmitter.on('messageProcessed', async (messages) => {
         const auth = await authorize();
         for (const message of messages) {
             const chatData = [[message.user, message.text, message.timestamp]];
-            console.log('Appending chat data to Google Sheets:', chatData);
+            logger.info('Appending chat data to Google Sheets:', chatData);
             await updateChatHistory(auth, chatData);
-            console.log('Chat history updated successfully for message:', message);
+            logger.info('Chat history updated successfully for message:', message);
         }
     } catch (error) {
-        console.error('Error updating chat history:', error);
+        logger.error('Error updating chat history:', error.message);
     }
 });
 

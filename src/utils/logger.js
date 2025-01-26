@@ -9,7 +9,7 @@ class Logger {
      * @param {string} message - The message to log.
      */
     info(message) {
-        console.log(`INFO: ${message}`);
+        console.log(`[${new Date().toISOString()}] INFO: ${message}`);
     }
 
     /**
@@ -17,7 +17,7 @@ class Logger {
      * @param {string} eventName - The name of the event.
      */
     logEventEmitted(eventName) {
-        console.log(`EVENT EMITTED: ${eventName} at ${new Date().toISOString()}`);
+        console.info(`[${new Date().toISOString()}] EVENT EMITTED: ${eventName}`);
     }
 
     /**
@@ -25,7 +25,7 @@ class Logger {
      * @param {string} eventName - The name of the event.
      */
     logEventHandled(eventName) {
-        console.log(`EVENT HANDLED: ${eventName} at ${new Date().toISOString()}`);
+        console.info(`[${new Date().toISOString()}] EVENT HANDLED: ${eventName}`);
     }
 
     /**
@@ -33,7 +33,7 @@ class Logger {
      * @param {string} message - The message to log.
      */
     warn(message) {
-        console.warn(`WARN: ${message}`);
+        console.warn(`[${new Date().toISOString()}] WARNING: ${message}`);
     }
 
     /**
@@ -41,7 +41,7 @@ class Logger {
      * @param {string} message - The message to log.
      */
     error(message) {
-        console.error(`ERROR: ${message}`);
+        console.error(`[${new Date().toISOString()}] ERROR: ${message}`);
     }
 }
 

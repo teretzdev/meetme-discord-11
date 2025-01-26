@@ -5,6 +5,8 @@ require('dotenv').config();
 
 const amqplib = require('amqplib');
 const mongoose = require('mongoose');
+const { Logger } = require('./logger');
+const logger = new Logger();
 
 /**
  * Sets up a connection to RabbitMQ.
@@ -13,10 +15,10 @@ const mongoose = require('mongoose');
 async function setupRabbitMQ() {
     try {
         const connection = await amqplib.connect(process.env.RABBITMQ_URL);
-        console.log('Connected to RabbitMQ');
+        logger.info('Connected to RabbitMQ');
         return connection;
     } catch (error) {
-        console.error('Failed to connect to RabbitMQ:', error);
+        logger.error('Failed to connect to RabbitMQ:', error.message);
         throw error;
     }
 }
@@ -31,9 +33,9 @@ async function setupDatabase() {
             useNewUrlParser: true,
             useUnifiedTopology: true
         });
-        console.log('Connected to MongoDB');
+        logger.info('Connected to MongoDB');
     } catch (error) {
-        console.error('Failed to connect to MongoDB:', error);
+        logger.error('Failed to connect to MongoDB:', error.message);
         throw error;
     }
 }
@@ -46,9 +48,9 @@ async function setup() {
     try {
         await setupRabbitMQ();
         await setupDatabase();
-        console.log('Environment setup complete');
+        logger.info('Environment setup complete');
     } catch (error) {
-        console.error('Environment setup failed:', error);
+        logger.error('Environment setup failed:', error.message);
         throw error;
     }
 }
