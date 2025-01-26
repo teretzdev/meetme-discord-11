@@ -3,6 +3,8 @@
 // Load environment variables from .env file
 require('dotenv').config();
 
+validateEnvironmentVariables();
+
 const amqplib = require('amqplib');
 const mongoose = require('mongoose');
 
@@ -18,6 +20,25 @@ async function setupRabbitMQ() {
     } catch (error) {
         console.error('Failed to connect to RabbitMQ:', error);
         throw error;
+    }
+}
+
+/**
+ * Validates the presence and validity of required environment variables.
+ * Throws an error if any required variables are missing or invalid.
+ */
+function validateEnvironmentVariables() {
+    const requiredVariables = [
+        'RABBITMQ_URL',
+        'MONGODB_URI',
+        'AI_API_KEY',
+        'AI_API_URL'
+    ];
+
+    const missingVariables = requiredVariables.filter(varName => !process.env[varName]);
+
+    if (missingVariables.length > 0) {
+        throw new Error(`Missing required environment variables: ${missingVariables.join(', ')}`);
     }
 }
 

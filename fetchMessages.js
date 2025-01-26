@@ -20,34 +20,67 @@ const aiAgent = new AIAgent();
 async function fetchMessages() {
     try {
         await setup();
+    } catch (error) {
+        logger.error('Error during setup:', error.message);
+        return;
+    }
 
-        // Initialize Puppeteer browser
-        const browser = await initializeBrowser();
-        const page = await browser.newPage();
+    let browser;
+    let page;
+    try {
+        browser = await initializeBrowser();
+        page = await browser.newPage();
+    } catch (error) {
+        logger.error('Error initializing browser:', error.message);
+        if (browser) await browser.close();
+        return;
+    }
 
-        // Login to MeetMe
+    try {
         await loginToMeetMe(page);
+    } catch (error) {
+        logger.error('Error logging into MeetMe:', error.message);
+        await browser.close();
+        return;
+    }
 
-        // Navigate to chat page
+    try {
         await navigateToChatPage(page);
+    } catch (error) {
+        logger.error('Error navigating to chat page:', error.message);
+        await browser.close();
+        return;
+    }
 
-        // Handle any pop-ups
+    try {
         await handlePopUps(page);
+    } catch (error) {
+        logger.error('Error handling pop-ups:', error.message);
+    }
 
-        // Extract chat data
-        const chatData = await extractChatData(page);
+    let chatData;
+    try {
+        chatData = await extractChatData(page);
+    } catch (error) {
+        logger.error('Error extracting chat data:', error.message);
+        await browser.close();
+        return;
+    }
 
-        // Emit 'messageFetched' event with the extracted chat data
+    try {
         logger.logEventEmitted('messageFetched');
         eventEmitter.emit('messageFetched', chatData);
-
-        // Close the browser
-        await browser.close();
-
-        logger.info('Messages fetched and updated successfully.');
     } catch (error) {
-        logger.error('Error fetching messages:', error.message);
+        logger.error('Error emitting messageFetched event:', error.message);
     }
+
+    try {
+        await browser.close();
+    } catch (error) {
+        logger.error('Error closing browser:', error.message);
+    }
+
+    logger.info('Messages fetched and updated successfully.');
 }
 
 
