@@ -9,7 +9,7 @@ import puppeteer from 'puppeteer';
  */
 async function handlePopUps(page) {
     // Example: Close any pop-up if it appears
-    const popUpSelector = '.popup-close-button';
+    const popUpSelector = '.modal-close';
     if (await page.$(popUpSelector)) {
         await page.click(popUpSelector);
     }

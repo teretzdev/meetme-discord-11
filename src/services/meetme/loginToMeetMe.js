@@ -12,9 +12,9 @@ async function loginToMeetMe(page) {
     await page.goto(loginUrl, { waitUntil: 'networkidle2' });
 
     // Replace with actual selectors and credentials
-    await page.type('#username', process.env.MEETME_USERNAME);
-    await page.type('#password', process.env.MEETME_PASSWORD);
-    await page.click('#loginButton');
+    await page.type('#login-username', process.env.MEETME_USERNAME);
+    await page.type('#login-password', process.env.MEETME_PASSWORD);
+    await page.click('#submit-login');
 
     await page.waitForNavigation({ waitUntil: 'networkidle2' });
 }
