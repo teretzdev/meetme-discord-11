@@ -48,6 +48,13 @@ To integrate the AI service for processing messages, ensure you have the followi
 1. An account with the AI service provider.
 2. Your API key and endpoint URL, which should be added to the `.env` file as `AI_API_KEY` and `AI_API_URL`.
 
+## AI Response Format
+The AI service now returns responses in a structured JSON format. The expected format includes the following fields:
+- `responseText`: The main text response from the AI.
+- `sentiment`: The sentiment analysis result of the input message.
+
+These fields are parsed and utilized within the application to enhance message processing and interaction. Ensure your AI service is configured to return responses in this format.
+
 ## Event-Driven Architecture
 The application is structured around an event-driven architecture, where key actions are triggered by events:
 - **fetchMessages**: Initiates the process by emitting a 'fetchMessages' event.
