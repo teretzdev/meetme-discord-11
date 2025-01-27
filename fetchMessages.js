@@ -16,6 +16,7 @@ import AIAgent from './src/agents/aiAgent.js';
 const logger = new Logger();
 
 const aiAgent = new AIAgent();
+aiAgent.listenForMessages();
 
 async function fetchMessages() {
     try {

@@ -1,8 +1,9 @@
 // src/agents/aiAgent.js
 
-require('dotenv').config();
-const axios = require('axios');
-const eventEmitter = require('../events/eventEmitter');
+import dotenv from 'dotenv';
+import axios from 'axios';
+import eventEmitter from '../events/eventEmitter.js';
+dotenv.config();
 
 /**
  * AIAgent class to interact with an AI service.
@@ -107,8 +108,4 @@ class AIAgent {
     }
 }
 
-module.exports = AIAgent;
-
-// Initialize and start listening for messages
-const aiAgent = new AIAgent();
-aiAgent.listenForMessages();
+export default AIAgent;
