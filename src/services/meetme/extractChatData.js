@@ -12,11 +12,11 @@ async function extractChatData(page) {
     // Replace with actual logic to extract chat data
     const chatData = await page.evaluate(() => {
         const messages = [];
-        document.querySelectorAll('.chat-message').forEach(msg => {
+        document.querySelectorAll('.message-item').forEach(msg => {
             messages.push({
-                user: msg.querySelector('.user-name').innerText,
-                text: msg.querySelector('.message-text').innerText,
-                timestamp: msg.querySelector('.timestamp').innerText,
+                user: msg.querySelector('.message-user').innerText,
+                text: msg.querySelector('.message-content').innerText,
+                timestamp: msg.querySelector('.message-time').innerText,
             });
         });
         return messages;
