@@ -33,7 +33,8 @@ class AIAgent {
                     const aiResponse = await this.sendMessage(message.text);
                     return {
                         user: message.user,
-                        text: aiResponse.processedText,
+                        text: aiResponse.responseText,
+                        sentiment: aiResponse.sentiment,
                         timestamp: message.timestamp
                     };
                 }));
@@ -70,7 +71,11 @@ class AIAgent {
                     apiKey: this.apiKey,
                     message: message
                 });
-                return response.data;
+                const { responseText, sentiment } = response.data;
+                if (typeof responseText !== 'string' || typeof sentiment !== 'string') {
+                    throw new Error('Unexpected response format: Missing responseText or sentiment.');
+                }
+                return { responseText, sentiment };
             } catch (error) {
                 if (error.response && error.response.status >= 500) {
                     attempt++;
