@@ -21,8 +21,6 @@ async function extractChatData(page) {
         });
         return messages;
     });
-    // Emit 'messageFetched' event with the chat data as payload
-    eventEmitter.emit('messageFetched', chatData);
     return chatData;
 }
 
