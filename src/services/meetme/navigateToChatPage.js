@@ -1,6 +1,6 @@
 // src/services/meetme/navigateToChatPage.js
 
-const puppeteer = require('puppeteer');
+import puppeteer from 'puppeteer';
 
 /**
  * Navigates to the chat page on MeetMe.
@@ -12,6 +12,4 @@ async function navigateToChatPage(page) {
     await page.goto(chatUrl, { waitUntil: 'networkidle2' });
 }
 
-module.exports = {
-    navigateToChatPage
-};
+export { navigateToChatPage };

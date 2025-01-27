@@ -3,7 +3,7 @@
 // Import necessary modules and dependencies
 import eventEmitter from './src/events/eventEmitter.js';
 import { Logger } from './src/utils/logger.js';
-import { setup } from './src/utils/setup.cjs';
+import { setup } from './src/utils/setup.js';
 import { getChatHistory, updateChatHistory } from './src/services/sheetService.js';
 import { initializeBrowser } from './src/services/meetme/initializeBrowser.js';
 import { loginToMeetMe } from './src/services/meetme/loginToMeetMe.js';

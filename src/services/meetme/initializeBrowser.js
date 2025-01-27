@@ -1,6 +1,6 @@
 // src/services/meetme/initializeBrowser.js
 
-const puppeteer = require('puppeteer');
+import puppeteer from 'puppeteer';
 
 /**
  * Initializes a Puppeteer browser instance.
@@ -11,6 +11,4 @@ async function initializeBrowser() {
     return browser;
 }
 
-module.exports = {
-    initializeBrowser
-};
+export { initializeBrowser };

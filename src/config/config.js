@@ -1,7 +1,7 @@
 // src/config/config.js
 
-// Load environment variables from .env file
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 
 // Configuration object
 const config = {
@@ -28,5 +28,4 @@ const config = {
     }
 };
 
-// Export the configuration object
-module.exports = config;
+export default config;

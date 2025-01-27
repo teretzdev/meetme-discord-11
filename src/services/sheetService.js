@@ -1,10 +1,10 @@
 // src/services/sheetService.js
 
-const { google } = require('googleapis');
-const eventEmitter = require('../events/eventEmitter');
-const fs = require('fs');
-const path = require('path');
-const { Logger } = require('../utils/logger');
+import { google } from 'googleapis';
+import eventEmitter from '../events/eventEmitter.js';
+import fs from 'fs';
+import path from 'path';
+import { Logger } from '../utils/logger.js';
 
 // Load client secrets from a local file or environment variables
 const CREDENTIALS_PATH = path.join(__dirname, '../../credentials.json');
@@ -126,7 +126,7 @@ eventEmitter.on('messageProcessed', async (messages) => {
     }
 });
 
-module.exports = {
+export {
     authorize,
     getChatHistory,
     updateChatHistory,
