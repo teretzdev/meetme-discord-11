@@ -19,6 +19,6 @@
     "puppeteer": "^19.7.0"
   },
   "devDependencies": {
-    "mocha": "^11.1.0"
+    "jest": "^29.0.0"
   }
 }
