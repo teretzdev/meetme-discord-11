@@ -1,11 +1,14 @@
 // test/aiAgent.test.js
 
-const axios = require('axios');
-const AIAgent = require('../src/agents/aiAgent');
-const eventEmitter = require('../src/events/eventEmitter');
+import axios from 'axios';
+import AIAgent from '../src/agents/aiAgent.js';
+import eventEmitter from '../src/events/eventEmitter.js';
 
 jest.mock('axios');
-jest.mock('../src/events/eventEmitter');
+jest.mock('../src/events/eventEmitter', () => ({
+    emit: jest.fn(),
+    on: jest.fn()
+}));
 
 describe('AIAgent', () => {
     let aiAgent;

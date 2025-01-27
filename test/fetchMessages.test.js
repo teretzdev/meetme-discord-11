@@ -1,16 +1,27 @@
 // test/fetchMessages.test.js
 
-const puppeteer = require('puppeteer');
-const eventEmitter = require('../src/events/eventEmitter');
-const { Logger } = require('../src/utils/logger');
-const { setup } = require('../src/utils/setup.cjs');
-const { fetchMessages } = require('../fetchMessages');
+import puppeteer from 'puppeteer';
+import eventEmitter from '../src/events/eventEmitter.js';
+import { Logger } from '../src/utils/logger.js';
+import { setup } from '../src/utils/setup.js';
+import { fetchMessages } from '../fetchMessages.js';
 
 // Mock dependencies
 jest.mock('puppeteer');
-jest.mock('../src/events/eventEmitter');
-jest.mock('../src/utils/logger');
-jest.mock('../src/utils/setup.cjs');
+jest.mock('../src/events/eventEmitter', () => ({
+    emit: jest.fn(),
+    on: jest.fn()
+}));
+jest.mock('../src/utils/logger', () => ({
+    Logger: jest.fn().mockImplementation(() => ({
+        info: jest.fn(),
+        error: jest.fn(),
+        logEventEmitted: jest.fn()
+    }))
+}));
+jest.mock('../src/utils/setup.js', () => ({
+    setup: jest.fn()
+}));
 
 // Setup mock implementations
 beforeEach(() => {

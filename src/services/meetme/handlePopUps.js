@@ -1,6 +1,6 @@
 // src/services/meetme/handlePopUps.js
 
-const puppeteer = require('puppeteer');
+import puppeteer from 'puppeteer';
 
 /**
  * Handles pop-ups that may appear on the page.
@@ -15,6 +15,4 @@ async function handlePopUps(page) {
     }
 }
 
-module.exports = {
-    handlePopUps
-};
+export { handlePopUps };

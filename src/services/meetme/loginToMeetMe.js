@@ -1,6 +1,6 @@
 // src/services/meetme/loginToMeetMe.js
 
-const puppeteer = require('puppeteer');
+import puppeteer from 'puppeteer';
 
 /**
  * Logs into the MeetMe service.
@@ -19,6 +19,4 @@ async function loginToMeetMe(page) {
     await page.waitForNavigation({ waitUntil: 'networkidle2' });
 }
 
-module.exports = {
-    loginToMeetMe
-};
+export { loginToMeetMe };

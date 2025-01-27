@@ -1,7 +1,7 @@
 // src/services/meetme/extractChatData.js
 
-const puppeteer = require('puppeteer');
-const eventEmitter = require('../events/eventEmitter');
+import puppeteer from 'puppeteer';
+import eventEmitter from '../events/eventEmitter.js';
 
 /**
  * Extracts chat data from the chat page.
@@ -26,6 +26,4 @@ async function extractChatData(page) {
     return chatData;
 }
 
-module.exports = {
-    extractChatData
-};
+export { extractChatData };

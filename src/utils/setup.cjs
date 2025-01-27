@@ -1,12 +1,12 @@
 // src/utils/setup.cjs
 
-// Load environment variables from .env file
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 
 validateEnvironmentVariables();
 
-const amqplib = require('amqplib');
-const mongoose = require('mongoose');
+import amqplib from 'amqplib';
+import mongoose from 'mongoose';
 
 /**
  * Sets up a connection to RabbitMQ.
@@ -74,4 +74,4 @@ async function setup() {
     }
 }
 
-module.exports = { setup };
+export { setup };
