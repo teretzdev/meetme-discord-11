@@ -1,7 +1,7 @@
 // src/services/meetme/extractChatData.js
 
 import puppeteer from 'puppeteer';
-import eventEmitter from '../events/eventEmitter.js';
+import eventEmitter from '../../events/eventEmitter.js';
 
 /**
  * Extracts chat data from the chat page.
