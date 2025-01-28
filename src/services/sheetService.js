@@ -1,5 +1,10 @@
 // src/services/sheetService.js
 
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
 import { google } from 'googleapis';
 import eventEmitter from '../events/eventEmitter.js';
 import fs from 'fs';
