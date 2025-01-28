@@ -1,6 +1,6 @@
 // src/utils/setup.js
 
-import dotenv from 'dotenv';
+import * as dotenv from 'dotenv';
 
 /**
  * Setup function to initialize environment variables and perform any necessary
@@ -12,7 +12,8 @@ function setup() {
 
     // Check if there was an error loading the .env file
     if (result.error) {
-        throw new Error('Failed to load environment variables: ' + result.error);
+        console.error('Error loading .env file:', result.error);
+        throw result.error;
     }
 
     // Additional initialization tasks can be added here if needed
