@@ -3,9 +3,11 @@ import express from 'express';
 // Create an Express application
 const app = express();
 
+app.use(express.static('public'));
+
 // Define a route handler for GET requests to '/'
 app.get('/', (req, res) => {
-    res.send('Application is running');
+    res.sendFile('index.html', { root: 'public' });
 });
 
 // Start the server and listen on port 3000
