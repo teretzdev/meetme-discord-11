@@ -2,10 +2,10 @@
   "name": "meetme-discord-11",
   "version": "1.0.1",
   "description": "A Node.js application integrating MeetMe chat data with Discord and AI processing.",
-  "main": "app.js",
+  "main": "fetchMessages.js",
   "type": "module",
   "scripts": {
-    "start": "node fetchMessages.js",
+    "start": "node server.js",
     "test": "jest"
   },
   "author": "teretzdev",
@@ -16,7 +16,8 @@
     "dotenv": "^16.3.1",
     "googleapis": "^105.0.0",
     "mongoose": "^7.5.0",
-    "puppeteer": "^19.7.0"
+    "puppeteer": "^19.7.0",
+    "express": "^4.18.2"
   },
   "devDependencies": {
     "jest": "^29.0.0"
