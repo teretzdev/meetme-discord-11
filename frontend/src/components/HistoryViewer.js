@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import eventEmitter from '../../events/eventEmitter';
+import eventEmitter from '../events/eventEmitter';
 
 /**
  * HistoryViewer component to display the updated chat history from Google Sheets.

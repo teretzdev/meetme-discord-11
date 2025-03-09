@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import eventEmitter from '../../events/eventEmitter';
+import eventEmitter from '../events/eventEmitter';
 
 /**
  * AIProcessor component to display AI-processed messages with sentiment analysis.
