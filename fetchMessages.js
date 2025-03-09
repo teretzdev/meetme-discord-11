@@ -85,6 +85,6 @@ async function fetchMessages() {
 
 
 /**
- * Execute the fetchMessages function to start the process.
+ * Explicitly export the fetchMessages function for external usage.
  */
-fetchMessages();
+export { fetchMessages };
