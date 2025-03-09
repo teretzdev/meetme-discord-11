@@ -5,7 +5,9 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "start": "node fetchMessages.js",
+    "start": "concurrently \"npm run start-backend\" \"npm run start-frontend\"",
+    "start-backend": "node server.js",
+    "start-frontend": "npm start --prefix frontend",
     "test": "jest"
   },
   "author": "teretzdev",
