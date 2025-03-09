@@ -24,9 +24,9 @@ Before setting up the frontend, ensure the following are installed on your syste
 
 ## Running the Application
 
-1. Start the unified application (frontend and backend) using the following command:
+1. Start the frontend application using the following command:
    ```bash
-   npm run dev
+   npm start
    ```
 
 2. Open your browser and navigate to:
@@ -35,6 +35,10 @@ Before setting up the frontend, ensure the following are installed on your syste
    ```
 
    The application should now be running, and you can interact with the GUI.
+
+3. If you want to run both the frontend and backend together, use the following command from the root directory:
+   ```bash
+   npm run dev
 
 ## Project Structure
 
