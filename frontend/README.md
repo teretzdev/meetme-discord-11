@@ -24,9 +24,9 @@ Before setting up the frontend, ensure the following are installed on your syste
 
 ## Running the Application
 
-1. Start the development server:
+1. Start the unified application (frontend and backend) using the new script:
    ```bash
-   npm start
+   npm run dev
    ```
 
 2. Open your browser and navigate to:
