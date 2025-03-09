@@ -32,6 +32,8 @@ MEETME_USERNAME=your_meetme_username
 MEETME_PASSWORD=your_meetme_password
 AI_API_KEY=your_ai_api_key # API key for the AI service
 AI_API_URL=your_ai_api_url # URL for the AI service endpoint
+AI_PROVIDER=your_ai_provider # AI provider (e.g., 'default' or 'lmstudio')
+LMSTUDIO_API_URL=your_lmstudio_api_url # URL for the LMStudio API endpoint
 PUPPETEER_ARGS=--no-sandbox,--disable-setuid-sandbox # Additional Puppeteer arguments
 ```
 

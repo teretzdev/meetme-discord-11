@@ -7,7 +7,8 @@ import { Logger } from './src/utils/logger.js';
 const app = express();
 const PORT = process.env.PORT || 3000;
 const logger = new Logger();
-const aiAgent = new AIAgent();
+const aiProvider = process.env.AI_PROVIDER || 'default';
+const aiAgent = new AIAgent(aiProvider);
 
 // Middleware to parse JSON requests
 app.use(express.json());
