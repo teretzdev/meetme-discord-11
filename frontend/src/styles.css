@@ -1,0 +1,207 @@
+/* styles.css */
+
+/* General styles for the application */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+/* App container styles */
+.app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header styles */
+.app-header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+}
+
+.app-header h1 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+/* Navigation styles */
+.app-navigation {
+    background-color: #333;
+    color: white;
+    padding: 0.5rem;
+}
+
+.app-navigation ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.app-navigation li {
+    margin: 0 1rem;
+}
+
+.app-navigation a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.app-navigation a:hover {
+    text-decoration: underline;
+}
+
+/* Main content styles */
+.app-main {
+    flex: 1;
+    padding: 1rem;
+}
+
+.app-main section {
+    margin-bottom: 2rem;
+}
+
+.app-main h2 {
+    border-bottom: 2px solid #4CAF50;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+/* ChatViewer styles */
+.chat-viewer {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 1rem;
+}
+
+.chat-viewer ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.chat-message {
+    border-bottom: 1px solid #ddd;
+    padding: 0.5rem 0;
+}
+
+.chat-message:last-child {
+    border-bottom: none;
+}
+
+.chat-message p {
+    margin: 0;
+}
+
+.chat-message .timestamp {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+/* AIProcessor styles */
+.ai-processor {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 1rem;
+}
+
+.ai-processor ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.ai-message {
+    border-bottom: 1px solid #ddd;
+    padding: 0.5rem 0;
+}
+
+.ai-message:last-child {
+    border-bottom: none;
+}
+
+.ai-message p {
+    margin: 0;
+}
+
+.ai-message .sentiment {
+    font-size: 0.9rem;
+    color: #4CAF50;
+}
+
+.ai-message .timestamp {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+/* HistoryViewer styles */
+.history-viewer {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 1rem;
+}
+
+.history-viewer ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.history-message {
+    border-bottom: 1px solid #ddd;
+    padding: 0.5rem 0;
+}
+
+.history-message:last-child {
+    border-bottom: none;
+}
+
+.history-message p {
+    margin: 0;
+}
+
+.history-message .timestamp {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+/* Controls styles */
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: #f4f4f9;
+}
+
+.control-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.control-button:hover {
+    background-color: #45a049;
+}
+
+/* Footer styles */
+.app-footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+}
