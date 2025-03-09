@@ -15,9 +15,10 @@ class AIAgent {
      * @throws Will throw an error if the API key or URL is missing.
      */
     constructor() {
+        this.apiProvider = process.env.AI_PROVIDER || 'default';
         this.apiKey = process.env.AI_API_KEY;
-        this.apiUrl = process.env.AI_API_URL;
-        
+        this.apiUrl = this.apiProvider === 'LMStudio' ? process.env.LMSTUDIO_API_URL : process.env.AI_API_URL;
+
         if (!this.apiKey || !this.apiUrl) {
             throw new Error('AI API configuration is missing. Please check your environment variables.');
         }
@@ -67,15 +68,22 @@ class AIAgent {
         let attempt = 0;
         while (attempt < maxRetries) {
             try {
-                const response = await axios.post(this.apiUrl, {
-                    apiKey: this.apiKey,
-                    message: message
-                });
-                const { responseText, sentiment } = response.data;
-                if (typeof responseText !== 'string' || typeof sentiment !== 'string') {
-                    throw new Error('Unexpected response format: Missing responseText or sentiment.');
+                const response = this.apiProvider === 'LMStudio'
+                    ? await axios.post(this.apiUrl, { prompt: message })
+                    : await axios.post(this.apiUrl, { apiKey: this.apiKey, message: message });
+                if (this.apiProvider === 'LMStudio') {
+                    const { text: responseText } = response.data;
+                    if (typeof responseText !== 'string') {
+                        throw new Error('Unexpected response format: Missing responseText.');
+                    }
+                    return { responseText, sentiment: 'N/A' }; // LMStudio does not provide sentiment
+                } else {
+                    const { responseText, sentiment } = response.data;
+                    if (typeof responseText !== 'string' || typeof sentiment !== 'string') {
+                        throw new Error('Unexpected response format: Missing responseText or sentiment.');
+                    }
+                    return { responseText, sentiment };
                 }
-                return { responseText, sentiment };
             } catch (error) {
                 if (error.response && error.response.status >= 500) {
                     attempt++;
