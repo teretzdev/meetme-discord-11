@@ -83,12 +83,28 @@ async function fetchMessages() {
     }
 
     try {
-        logger.info('Emitting messageFetched event...');
-        logger.logEventEmitted('messageFetched');
-        eventEmitter.emit('messageFetched', chatData);
-        logger.info('messageFetched event emitted successfully.');
+        logger.info('Updating chat history in Google Sheets...');
+        await updateChatHistory(chatData);
+        logger.info('Chat history updated successfully in Google Sheets.');
+
+        logger.info('Processing messages using AI Agent...');
+        const processedMessages = await Promise.all(chatData.map(async (message) => {
+            const aiResponse = await aiAgent.sendMessage(message.text);
+            return {
+                user: message.user,
+                text: aiResponse.responseText,
+                sentiment: aiResponse.sentiment,
+                timestamp: message.timestamp,
+            };
+        }));
+        logger.info('Messages processed successfully using AI Agent.');
+
+        logger.info('Emitting messageProcessed event...');
+        logger.logEventEmitted('messageProcessed');
+        eventEmitter.emit('messageProcessed', processedMessages);
+        logger.info('messageProcessed event emitted successfully.');
     } catch (error) {
-        logger.error('Error emitting messageFetched event:', error.message);
+        logger.error('Error during Google Sheets update or AI processing:', error.message);
     }
 
     try {
