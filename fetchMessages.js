@@ -92,7 +92,9 @@ async function fetchMessages() {
     }
 
     try {
+        logger.info('Closing browser...');
         await browser.close();
+        logger.info('Browser closed successfully.');
     } catch (error) {
         logger.error('Error closing browser:', error.message);
     }

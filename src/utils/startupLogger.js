@@ -19,7 +19,7 @@ class StartupLogger {
      * Logs the beginning of the application startup process.
      */
     logStartupBegin() {
-        this.logger.info('Application startup process initiated.');
+        this.logger.info(`[STARTUP] Application startup process initiated at ${new Date().toISOString()}.`);
     }
 
     /**
@@ -27,7 +27,7 @@ class StartupLogger {
      * @param {string} configName - The name of the configuration being loaded.
      */
     logConfigLoading(configName) {
-        this.logger.info(`Loading configuration: ${configName}`);
+        this.logger.info(`[STARTUP] Loading configuration: ${configName} at ${new Date().toISOString()}.`);
     }
 
     /**
@@ -35,14 +35,14 @@ class StartupLogger {
      * @param {string} configName - The name of the configuration that was successfully loaded.
      */
     logConfigLoaded(configName) {
-        this.logger.info(`Configuration loaded successfully: ${configName}`);
+        this.logger.info(`[STARTUP] Configuration loaded successfully: ${configName} at ${new Date().toISOString()}.`);
     }
 
     /**
      * Logs the completion of the application startup process.
      */
     logStartupComplete() {
-        this.logger.info('Application startup process completed successfully.');
+        this.logger.info(`[STARTUP] Application startup process completed successfully at ${new Date().toISOString()}.`);
     }
 
     /**
@@ -50,7 +50,7 @@ class StartupLogger {
      * @param {string} errorMessage - The error message to log.
      */
     logStartupError(errorMessage) {
-        this.logger.error(`Startup error: ${errorMessage}`);
+        this.logger.error(`[STARTUP] Startup error at ${new Date().toISOString()}: ${errorMessage}`);
     }
 }
 

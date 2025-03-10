@@ -1,5 +1,3 @@
-// src/agents/aiAgent.js
-
 import dotenv from 'dotenv';
 import axios from 'axios';
 import eventEmitter from '../events/eventEmitter.js';
@@ -72,11 +70,11 @@ class AIAgent {
                     ? await axios.post(this.apiUrl, { prompt: message })
                     : await axios.post(this.apiUrl, { apiKey: this.apiKey, message: message });
                 if (this.apiProvider === 'LMStudio') {
+                    console.debug('LMStudio response received:', response.data);
                     const { text: responseText } = response.data;
                     if (typeof responseText !== 'string') {
                         throw new Error('Unexpected response format: Missing responseText.');
                     }
-                    console.debug('LMStudio response received:', response.data);
                     return { responseText, sentiment: 'N/A' }; // LMStudio does not provide sentiment
                 } else {
                     console.debug('Default AI provider response received:', response.data);
