@@ -19,7 +19,9 @@ const aiAgent = new AIAgent();
 
 async function fetchMessages() {
     try {
+        logger.info('Starting setup process...');
         await setup();
+        logger.info('Setup process completed successfully.');
     } catch (error) {
         logger.error('Error during setup:', error.message);
         return;
@@ -28,8 +30,11 @@ async function fetchMessages() {
     let browser;
     let page;
     try {
+        logger.info('Initializing browser...');
         browser = await initializeBrowser();
+        logger.info('Browser initialized successfully.');
         page = await browser.newPage();
+        logger.info('New page created in browser.');
     } catch (error) {
         logger.error('Error initializing browser:', error.message);
         if (browser) await browser.close();
@@ -37,15 +42,21 @@ async function fetchMessages() {
     }
 
     try {
+        logger.info('Logging into MeetMe...');
         await loginToMeetMe(page);
+        logger.info('Logged into MeetMe successfully.');
     } catch (error) {
         logger.error('Error logging into MeetMe:', error.message);
+        logger.info('Closing browser...');
         await browser.close();
+        logger.info('Browser closed successfully.');
         return;
     }
 
     try {
+        logger.info('Navigating to chat page...');
         await navigateToChatPage(page);
+        logger.info('Navigated to chat page successfully.');
     } catch (error) {
         logger.error('Error navigating to chat page:', error.message);
         await browser.close();
@@ -53,14 +64,18 @@ async function fetchMessages() {
     }
 
     try {
+        logger.info('Handling pop-ups...');
         await handlePopUps(page);
+        logger.info('Pop-ups handled successfully.');
     } catch (error) {
         logger.error('Error handling pop-ups:', error.message);
     }
 
     let chatData;
     try {
+        logger.info('Extracting chat data...');
         chatData = await extractChatData(page);
+        logger.info(`Extracted ${chatData.length} messages from chat.`);
     } catch (error) {
         logger.error('Error extracting chat data:', error.message);
         await browser.close();
@@ -68,8 +83,10 @@ async function fetchMessages() {
     }
 
     try {
+        logger.info('Emitting messageFetched event...');
         logger.logEventEmitted('messageFetched');
         eventEmitter.emit('messageFetched', chatData);
+        logger.info('messageFetched event emitted successfully.');
     } catch (error) {
         logger.error('Error emitting messageFetched event:', error.message);
     }
@@ -80,7 +97,7 @@ async function fetchMessages() {
         logger.error('Error closing browser:', error.message);
     }
 
-    logger.info('Messages fetched and updated successfully.');
+    logger.info('FetchMessages process completed. Messages fetched and updated successfully.');
 }
 
 

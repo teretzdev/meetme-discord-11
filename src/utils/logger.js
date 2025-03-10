@@ -5,11 +5,21 @@
  */
 class Logger {
     /**
+     * Logs a message with a specific log level.
+     * @param {string} level - The log level (DEBUG, INFO, WARN, ERROR).
+     * @param {string} message - The message to log.
+     */
+    log(level, message) {
+        const timestamp = new Date().toISOString();
+        console.log(`[${level}] [${timestamp}] ${message}`);
+    }
+
+    /**
      * Logs a debug message.
      * @param {string} message - The message to log.
      */
     debug(message) {
-        console.debug(`DEBUG: ${message}`);
+        this.log('DEBUG', message);
     }
 
     /**
@@ -17,7 +27,7 @@ class Logger {
      * @param {string} message - The message to log.
      */
     info(message) {
-        console.info(`INFO: ${message}`);
+        this.log('INFO', message);
     }
 
     /**
@@ -41,7 +51,7 @@ class Logger {
      * @param {string} message - The message to log.
      */
     warn(message) {
-        console.warn(`WARNING: ${message}`);
+        this.log('WARN', message);
     }
 
     /**
@@ -49,7 +59,23 @@ class Logger {
      * @param {string} message - The message to log.
      */
     error(message) {
-        console.error(`ERROR: ${message}`);
+        this.log('ERROR', message);
+    }
+
+    /**
+     * Logs a startup message.
+     * @param {string} message - The message to log.
+     */
+    startup(message) {
+        this.log('STARTUP', message);
+    }
+
+    /**
+     * Logs a runtime message.
+     * @param {string} message - The message to log.
+     */
+    runtime(message) {
+        this.log('RUNTIME', message);
     }
 }
 
