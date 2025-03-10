@@ -1,6 +1,6 @@
 import express from 'express';
 import eventEmitter from './src/events/eventEmitter.js';
-import fetchMessages from './fetchMessages.js';
+import { fetchMessages } from './fetchMessages.js';
 import AIAgent from './src/agents/aiAgent.js';
 import { Logger } from './src/utils/logger.js';
 
