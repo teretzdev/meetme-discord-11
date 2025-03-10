@@ -77,4 +77,4 @@ To start the application, ensure all services (RabbitMQ, MongoDB) are running an
 npm start
 ```
 
-This command will execute the `fetchMessages.js` file, which now operates in an event-driven manner. It integrates with MeetMe, Google Sheets, and an AI service to fetch and update chat messages through a series of events. Ensure your `.env` file is correctly configured before running the application. The application will automatically handle message fetching, processing, and updating through its event-driven architecture.
+This command will execute the `fetchMessages.js` file, which now operates in an event-driven manner. It integrates with MeetMe, Google Sheets, and an AI service to fetch and update chat messages through a series of events. Ensure your `.env` file is correctly configured before running the application. By default, the application will run on port `2090`. The application will automatically handle message fetching, processing, and updating through its event-driven architecture.

@@ -5,7 +5,7 @@ import AIAgent from './src/agents/aiAgent.js';
 import { Logger } from './src/utils/logger.js';
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 2090;
 const logger = new Logger();
 const aiProvider = process.env.AI_PROVIDER || 'default';
 const aiAgent = new AIAgent(aiProvider);
