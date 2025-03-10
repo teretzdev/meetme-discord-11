@@ -57,7 +57,13 @@ app.get('/events', (req, res) => {
     res.status(200).send({ message: 'Event-driven architecture is active.' });
 });
 
+const startupTime = new Date().toISOString();
+logger.info(`Starting server initialization at ${startupTime}`);
+
 // Start the server
 app.listen(PORT, () => {
+    const startupTime = new Date().toISOString();
+    logger.info(`Server is starting at ${startupTime}`);
     logger.info(`Server is running on http://localhost:${PORT}`);
+    logger.info(`Server initialized successfully with AI Provider: ${aiProvider}`);
 });

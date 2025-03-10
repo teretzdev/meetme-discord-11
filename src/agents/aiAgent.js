@@ -1,5 +1,3 @@
-// src/agents/aiAgent.js
-
 import dotenv from 'dotenv';
 import axios from 'axios';
 import eventEmitter from '../events/eventEmitter.js';
@@ -39,10 +37,10 @@ class AIAgent {
                         timestamp: message.timestamp
                     };
                 }));
-                console.log('Processed messages:', processedMessages);
+                console.info('Processed messages successfully:', processedMessages);
                 eventEmitter.emit('messageProcessed', processedMessages);
             } catch (error) {
-                console.error('Error processing messages:', error);
+                console.error('Error processing messages:', error.message, error.stack);
             }
         });
     }
@@ -72,12 +70,14 @@ class AIAgent {
                     ? await axios.post(this.apiUrl, { prompt: message })
                     : await axios.post(this.apiUrl, { apiKey: this.apiKey, message: message });
                 if (this.apiProvider === 'LMStudio') {
+                    console.debug('LMStudio response received:', response.data);
                     const { text: responseText } = response.data;
                     if (typeof responseText !== 'string') {
                         throw new Error('Unexpected response format: Missing responseText.');
                     }
                     return { responseText, sentiment: 'N/A' }; // LMStudio does not provide sentiment
                 } else {
+                    console.debug('Default AI provider response received:', response.data);
                     const { responseText, sentiment } = response.data;
                     if (typeof responseText !== 'string' || typeof sentiment !== 'string') {
                         throw new Error('Unexpected response format: Missing responseText or sentiment.');
@@ -87,9 +87,9 @@ class AIAgent {
             } catch (error) {
                 if (error.response && error.response.status >= 500) {
                     attempt++;
-                    console.warn(`Transient error occurred. Retrying attempt ${attempt}...`);
+                    console.warn(`Transient error occurred (attempt ${attempt}):`, error.message);
                 } else {
-                    console.error('Error sending message to AI service:', error);
+                    console.error('Non-retryable error sending message to AI service:', error.message, error.stack);
                     throw error;
                 }
             }
@@ -116,6 +116,7 @@ class AIAgent {
             return response.data;
         } catch (error) {
             console.error('Error fetching responses from AI service:', error);
+            console.error('Exhausted all retry attempts. Throwing error.');
             throw error;
         }
     }

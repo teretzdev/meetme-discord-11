@@ -1,4 +1,8 @@
-// app.js
+import { Logger } from './src/utils/logger.js';
 
-// This script logs 'Hello, World!' to the console to verify the Node.js environment is working correctly.
-console.log('Hello, World!');
+const logger = new Logger();
+
+logger.info('Application is starting...');
+logger.info('Loading configuration...');
+logger.info('Initializing services...');
+logger.info('Application started successfully.');
