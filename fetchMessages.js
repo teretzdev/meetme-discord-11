@@ -88,7 +88,7 @@ async function fetchMessages() {
         eventEmitter.emit('messageFetched', chatData);
         logger.info('messageFetched event emitted successfully.');
     } catch (error) {
-        logger.error('Error emitting messageFetched event:', error.message);
+        logger.error('Error during Google Sheets update or AI processing:', error.message);
     }
 
     try {
